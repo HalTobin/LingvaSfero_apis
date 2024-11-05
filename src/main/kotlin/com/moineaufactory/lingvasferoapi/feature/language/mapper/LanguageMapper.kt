@@ -21,7 +21,7 @@ fun AddEditLanguageDto.toLanguageEntity(): Language =
     Language(
         iso = this.iso,
         name = this.name,
-        flagUrl = "/api/language/image?iso=${this.iso}",
+        flagUrl = "./img/languages/${this.iso}.png",
         flagHash = this.flagHash,
         color = this.color.toLong(),
         lightColor = this.lightColor.toLong(),
