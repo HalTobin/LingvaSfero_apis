@@ -1,10 +1,11 @@
 package com.moineaufactory.lingvasferoapi.feature.language.dto
 
 data class LanguageDto(
+    val id: Int,
     val iso: String,
     val name: String,
-    val flagUrl: String,
-    val flagHash: Int,
+    val imageUrl: String,
+    val imageHash: Int,
     val color: Long,
     val lightColor: Long,
     val darkColor: Long,

@@ -7,10 +7,11 @@ import com.moineaufactory.lingvasferoapi.feature.language.dto.LanguageDto
 
 fun Language.toLanguageDto(): LanguageDto =
     LanguageDto(
+        id = this.id!!,
         iso = this.iso,
         name = this.name,
-        flagUrl = "/api/language/image?iso=${this.iso}",
-        flagHash = this.flagHash,
+        imageUrl = "/api/language/image?iso=${this.iso}",
+        imageHash = this.imageHash,
         color = this.color,
         lightColor = this.lightColor,
         darkColor = this.darkColor,
@@ -19,10 +20,11 @@ fun Language.toLanguageDto(): LanguageDto =
 
 fun AddEditLanguageDto.toLanguageEntity(): Language =
     Language(
+        id = this.id,
         iso = this.iso,
         name = this.name,
-        flagUrl = "./img/languages/${this.iso}.png",
-        flagHash = this.flagHash,
+        imagePath = "./img/languages/${this.iso}.png",
+        imageHash = this.flagHash,
         color = this.color.toLong(),
         lightColor = this.lightColor.toLong(),
         darkColor = this.darkColor.toLong(),

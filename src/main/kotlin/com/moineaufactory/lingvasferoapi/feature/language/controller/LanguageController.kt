@@ -1,6 +1,6 @@
 package com.moineaufactory.lingvasferoapi.feature.language.controller
 
-import com.moineaufactory.lingvasferoapi.data.repository.LanguageRepository
+import com.moineaufactory.lingvasferoapi.data.data.LanguageService
 import com.moineaufactory.lingvasferoapi.feature.language.dto.LanguageDto
 import com.moineaufactory.lingvasferoapi.feature.language.mapper.toLanguageDto
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,7 +15,7 @@ import java.util.*
 @RestController
 @RequestMapping("/api/language")
 class LanguageController @Autowired constructor(
-    private val languageRepository: LanguageRepository
+    private val languageService: LanguageService
 ) {
 
     // Get the flag that correspond to a language
@@ -23,9 +23,9 @@ class LanguageController @Autowired constructor(
     @ResponseBody
     @Throws(IOException::class)
     fun getImage(@RequestParam iso: String): ResponseEntity<ByteArray> {
-        return languageRepository.findByIso(iso)?.let { selectedLanguage ->
-            println("Trying to open: ${selectedLanguage.flagUrl}")
-            val imgFile = File(selectedLanguage.flagUrl)
+        return languageService.getByIso(iso)?.let { selectedLanguage ->
+            println("Trying to open: ${selectedLanguage.imagePath}")
+            val imgFile = File(selectedLanguage.imagePath)
             if (imgFile.exists()) try {
                 val bytes = imgFile.readBytes()
                 ResponseEntity
@@ -33,11 +33,11 @@ class LanguageController @Autowired constructor(
                     .contentType(MediaType.IMAGE_PNG)
                     .body(bytes)
             } catch (e: IOException) {
-                println("Can't read file: ${selectedLanguage.flagUrl}")
+                println("Can't read file: ${selectedLanguage.imagePath}")
                 ResponseEntity("Can't read file".toByteArray(), HttpStatus.INTERNAL_SERVER_ERROR)
             }
             else {
-                println("File doesn't exist: ${selectedLanguage.flagUrl}")
+                println("File doesn't exist: ${selectedLanguage.imagePath}")
                 ResponseEntity("File doesn't exist".toByteArray() ,HttpStatus.INTERNAL_SERVER_ERROR)
             }
         } ?: ResponseEntity("Language not found".toByteArray(), HttpStatus.INTERNAL_SERVER_ERROR)
@@ -45,14 +45,14 @@ class LanguageController @Autowired constructor(
 
     @GetMapping("/all")
     fun getLanguages(): ResponseEntity<List<LanguageDto>> {
-        val languages = languageRepository.findAll().map { it.toLanguageDto() }
+        val languages = languageService.getAll().map { it.toLanguageDto() }
         return ResponseEntity(languages, HttpStatus.OK)
     }
 
     // Get to /iso/:id that returns a language by id
     @GetMapping("/iso/{iso}")
-    fun getLanguage(@PathVariable iso: String?): ResponseEntity<LanguageDto?> {
-        val language = languageRepository.findByIso(iso)?.toLanguageDto()
+    fun getLanguage(@PathVariable iso: String?): ResponseEntity<LanguageDto?> = iso?.let {
+        val language = languageService.getByIso(iso)?.toLanguageDto()
         return ResponseEntity(language, language?.let { HttpStatus.OK } ?: HttpStatus.BAD_REQUEST)
-    }
+    } ?: ResponseEntity(null, HttpStatus.BAD_REQUEST)
 }

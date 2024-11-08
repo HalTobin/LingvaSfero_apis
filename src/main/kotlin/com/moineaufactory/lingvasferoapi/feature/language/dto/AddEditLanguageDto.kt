@@ -3,6 +3,7 @@ package com.moineaufactory.lingvasferoapi.feature.language.dto
 import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
 
 data class AddEditLanguageDto(
+    val id: Int? = null,
     val iso: String = "",
     val name: String = "",
     val flagHash: Int = 0,

@@ -2,9 +2,11 @@ package com.moineaufactory.lingvasferoapi.data.repository
 
 import com.moineaufactory.lingvasferoapi.data.model.Language
 import org.springframework.data.jpa.repository.JpaRepository
+import java.util.*
 
 interface LanguageRepository : JpaRepository<Language?, Int?> {
     override fun findAll(): List<Language>
-    fun findByIso(iso: String?): Language?
+    override fun findById(id: Int): Optional<Language?>
+    fun findByIso(iso: String): Optional<Language?>
     fun save(language: Language): Language
 }

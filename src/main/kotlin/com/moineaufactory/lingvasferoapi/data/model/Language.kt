@@ -2,14 +2,20 @@ package com.moineaufactory.lingvasferoapi.data.model
 
 import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-data class Language(
-    @Id val iso: String,
+class Language(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
+
+    val iso: String,
     val name: String,
-    val flagUrl: String,
-    val flagHash: Int,
+    val imagePath: String,
+    val imageHash: Int,
     val color: Long,
     val lightColor: Long,
     val darkColor: Long,
