@@ -25,6 +25,11 @@ class AdminCategoryController @Autowired constructor(
     fun getCategories(
         @RequestBody category: AddEditCategoryDto
     ): ResponseEntity<List<CategoryDto>> {
+        val oldCategory = category.id?.let { categoryService.getById(it) }
+
+        if (oldCategory != null && oldCategory.textId != category.textId)
+            translationService.updateTextIds(oldCategory.textId, category.textId)
+
         categoryService.save(category.toCategoryEntity())
         val categories = categoryService.getAll().map { it.getCategoryDto(
             translations = translationService.getByTextId(it.textId)

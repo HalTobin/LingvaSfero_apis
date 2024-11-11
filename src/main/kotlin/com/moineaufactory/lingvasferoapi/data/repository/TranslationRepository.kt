@@ -2,7 +2,9 @@ package com.moineaufactory.lingvasferoapi.data.repository
 
 import com.moineaufactory.lingvasferoapi.data.entity.Translation
 import com.moineaufactory.lingvasferoapi.data.entity.TranslationId
+import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
@@ -15,4 +17,10 @@ interface TranslationRepository : JpaRepository<Translation, TranslationId> {
 
     // Save or update translation entries
     fun save(entity: Translation): Translation
+
+    // Method to update all translations with the specified oldTextId to newTextId
+    @Modifying
+    @Transactional
+    @Query("UPDATE Translation t SET t.id.textId = :newTextId WHERE t.id.textId = :oldTextId")
+    fun updateTextIdForTranslations(oldTextId: String, newTextId: String): Int
 }

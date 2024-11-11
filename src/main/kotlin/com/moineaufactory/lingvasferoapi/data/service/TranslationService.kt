@@ -40,4 +40,7 @@ class TranslationService @Autowired constructor(
             translationRepository.deleteById(translationId)
         }
     }
+
+    @Transactional
+    fun updateTextIds(oldTextId: String, newTextId: String) = translationRepository.updateTextIdForTranslations(oldTextId, newTextId)
 }
