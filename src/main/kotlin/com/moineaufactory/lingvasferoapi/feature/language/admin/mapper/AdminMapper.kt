@@ -21,6 +21,6 @@ fun AddEditLanguageDto.toLanguageEntity(): Language =
 
 fun AddEditCategoryDto.toCategoryEntity(): Category =
     Category(
-        id = this.id!!,
+        id = this.id,
         textId = this.textId
     )

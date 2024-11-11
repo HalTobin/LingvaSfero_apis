@@ -55,4 +55,5 @@ class LanguageController @Autowired constructor(
         val language = languageService.getByIso(iso)?.toLanguageDto()
         return ResponseEntity(language, language?.let { HttpStatus.OK } ?: HttpStatus.BAD_REQUEST)
     } ?: ResponseEntity(null, HttpStatus.BAD_REQUEST)
+
 }

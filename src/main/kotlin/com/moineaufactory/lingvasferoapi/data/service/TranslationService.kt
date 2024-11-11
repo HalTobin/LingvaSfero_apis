@@ -16,7 +16,7 @@ class TranslationService @Autowired constructor(
     fun getAll(): List<Translation> = translationRepository.findAll()
 
     // Get a list of translations by the textId from Category
-    fun getByTextId(textId: String): List<Translation> = translationRepository.findByTextId(textId)
+    fun getByTextId(textId: String): List<Translation> = translationRepository.findAllByTextId(textId)
 
     // Save or update a translation
     @Transactional

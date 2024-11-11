@@ -11,7 +11,7 @@ interface TranslationRepository : JpaRepository<Translation, TranslationId> {
 
     // Get a list of translations by the Category textId
     @Query("SELECT t FROM Translation t WHERE t.id.textId = :textId")
-    fun findByTextId(@Param("textId") textId: String): List<Translation>
+    fun findAllByTextId(@Param("textId") textId: String): List<Translation>
 
     // Save or update translation entries
     fun save(entity: Translation): Translation

@@ -1,16 +1,22 @@
 package com.moineaufactory.lingvasferoapi.data.entity
 
 import jakarta.persistence.*
+import java.io.Serializable
+
+@Embeddable
+class TranslationId(
+    @Column(name = "text_id", nullable = false)
+    val textId: String,
+
+    @Column(name = "iso", nullable = false)
+    val iso: String
+) : Serializable
 
 @Entity
 @Table(name = "translation")
-data class Translation(
+class Translation(
     @EmbeddedId
     val id: TranslationId,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "text_id", insertable = false, updatable = false)
-    val category: Category,
 
     @Column(nullable = false)
     val text: String
