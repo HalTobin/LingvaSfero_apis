@@ -1,6 +1,6 @@
-package com.moineaufactory.lingvasferoapi.data.data
+package com.moineaufactory.lingvasferoapi.data.service
 
-import com.moineaufactory.lingvasferoapi.data.model.Language
+import com.moineaufactory.lingvasferoapi.data.entity.Language
 import com.moineaufactory.lingvasferoapi.data.repository.LanguageRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

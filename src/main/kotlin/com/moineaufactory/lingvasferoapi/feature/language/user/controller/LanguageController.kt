@@ -1,8 +1,8 @@
-package com.moineaufactory.lingvasferoapi.feature.language.controller
+package com.moineaufactory.lingvasferoapi.feature.language.user.controller
 
-import com.moineaufactory.lingvasferoapi.data.data.LanguageService
-import com.moineaufactory.lingvasferoapi.feature.language.dto.LanguageDto
-import com.moineaufactory.lingvasferoapi.feature.language.mapper.toLanguageDto
+import com.moineaufactory.lingvasferoapi.data.service.LanguageService
+import com.moineaufactory.lingvasferoapi.data.dto.LanguageDto
+import com.moineaufactory.lingvasferoapi.data.mapper.toLanguageDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

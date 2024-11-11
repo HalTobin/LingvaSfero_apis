@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.data.model
+package com.moineaufactory.lingvasferoapi.data.entity
 
 import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
 import jakarta.persistence.Entity

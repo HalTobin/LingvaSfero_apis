@@ -1,6 +1,6 @@
 package com.moineaufactory.lingvasferoapi.data.repository
 
-import com.moineaufactory.lingvasferoapi.data.model.Language
+import com.moineaufactory.lingvasferoapi.data.entity.Language
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 

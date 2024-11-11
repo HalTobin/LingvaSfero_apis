@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.language.dto
+package com.moineaufactory.lingvasferoapi.data.dto
 
 data class LanguageDto(
     val id: Int,
