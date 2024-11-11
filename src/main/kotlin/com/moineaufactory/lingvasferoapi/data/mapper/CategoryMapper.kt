@@ -7,5 +7,5 @@ import com.moineaufactory.lingvasferoapi.data.entity.Translation
 fun Category.getCategoryDto(translations: List<Translation>) = CategoryDto(
     id = this.id!!,
     textId = this.textId,
-    translations = translations.map { it.getTranslationDto() }
+    translations = translations.map { it.toTranslationDto() }
 )

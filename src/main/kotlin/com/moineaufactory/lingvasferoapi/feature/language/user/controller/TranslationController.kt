@@ -1,7 +1,7 @@
 package com.moineaufactory.lingvasferoapi.feature.language.user.controller
 
 import com.moineaufactory.lingvasferoapi.data.dto.TranslationDto
-import com.moineaufactory.lingvasferoapi.data.mapper.getTranslationDto
+import com.moineaufactory.lingvasferoapi.data.mapper.toTranslationDto
 import com.moineaufactory.lingvasferoapi.data.service.TranslationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -18,7 +18,7 @@ class TranslationController @Autowired constructor(
 
     @GetMapping("/all")
     fun getTranslations(): ResponseEntity<List<TranslationDto>> {
-        val translations = translationService.getAll().map { it.getTranslationDto() }
+        val translations = translationService.getAll().map { it.toTranslationDto() }
         return ResponseEntity(translations, HttpStatus.OK)
     }
 
