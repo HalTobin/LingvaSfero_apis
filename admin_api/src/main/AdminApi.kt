@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class LingvasferoApiApplication
+class AdminApi
 
 fun main(args: Array<String>) {
-	runApplication<LingvasferoApiApplication>(*args)
+	runApplication<AdminApi>(*args)
 }
