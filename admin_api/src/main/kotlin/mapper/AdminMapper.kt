@@ -3,8 +3,8 @@ package com.moineaufactory.lingvasferoapi.feature.language.admin.mapper
 import com.moineaufactory.lingvasferoapi.data.entity.Category
 import com.moineaufactory.lingvasferoapi.data.entity.Language
 import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
-import com.moineaufactory.lingvasferoapi.feature.language.admin.dto.AddEditCategoryDto
-import com.moineaufactory.lingvasferoapi.feature.language.admin.dto.AddEditLanguageDto
+import com.moineaufactory.lingvasferoapi.feature.category.AddEditCategoryDto
+import com.moineaufactory.lingvasferoapi.feature.language.AddEditLanguageDto
 
 fun AddEditLanguageDto.toLanguageEntity(): Language =
     Language(

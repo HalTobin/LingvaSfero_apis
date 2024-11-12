@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.language.user.controller
+package com.moineaufactory.lingvasferoapi.feature.category
 
 import com.moineaufactory.lingvasferoapi.data.dto.CategoryDto
 import com.moineaufactory.lingvasferoapi.data.mapper.getCategoryDto

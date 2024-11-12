@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.language.user.controller
+package com.moineaufactory.lingvasferoapi.feature.language
 
 import com.moineaufactory.lingvasferoapi.data.service.LanguageService
 import com.moineaufactory.lingvasferoapi.data.dto.LanguageDto

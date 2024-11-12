@@ -1,10 +1,9 @@
-package com.moineaufactory.lingvasferoapi.feature.language.admin.controller
+package com.moineaufactory.lingvasferoapi.feature.category
 
 import com.moineaufactory.lingvasferoapi.data.dto.CategoryDto
 import com.moineaufactory.lingvasferoapi.data.mapper.getCategoryDto
 import com.moineaufactory.lingvasferoapi.data.service.CategoryService
 import com.moineaufactory.lingvasferoapi.data.service.TranslationService
-import com.moineaufactory.lingvasferoapi.feature.language.admin.dto.AddEditCategoryDto
 import com.moineaufactory.lingvasferoapi.feature.language.admin.mapper.toCategoryEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

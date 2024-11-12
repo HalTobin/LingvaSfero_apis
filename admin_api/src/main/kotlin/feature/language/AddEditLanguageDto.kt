@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.language.admin.dto
+package com.moineaufactory.lingvasferoapi.feature.language
 
 import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
 

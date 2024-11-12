@@ -1,7 +1,6 @@
-package com.moineaufactory.lingvasferoapi.feature.language.admin.controller
+package com.moineaufactory.lingvasferoapi.feature.language
 
 import com.moineaufactory.lingvasferoapi.data.service.LanguageService
-import com.moineaufactory.lingvasferoapi.feature.language.admin.dto.AddEditLanguageDto
 import com.moineaufactory.lingvasferoapi.data.dto.LanguageDto
 import com.moineaufactory.lingvasferoapi.data.mapper.toLanguageDto
 import com.moineaufactory.lingvasferoapi.feature.language.admin.mapper.toLanguageEntity
