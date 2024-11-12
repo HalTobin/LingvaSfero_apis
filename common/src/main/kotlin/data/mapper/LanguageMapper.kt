@@ -8,7 +8,7 @@ fun Language.toLanguageDto(): LanguageDto =
         id = this.id!!,
         iso = this.iso,
         name = this.name,
-        imageUrl = "/api/language/image?iso=${this.iso}",
+        imageUrl = "api/language/image?iso=${this.iso}",
         imageHash = this.imageHash,
         color = this.color,
         lightColor = this.lightColor,
