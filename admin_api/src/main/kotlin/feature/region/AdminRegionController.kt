@@ -42,7 +42,7 @@ class AdminRegionController @Autowired constructor(
         flag?.let {
             if (oldRegion?.imageHash != region.flagHash) {
                 // Define the file path where the flag image will be stored
-                val filePath = Paths.get("img", "languages", "${region.iso}.png")
+                val filePath = Paths.get("img", "regions", "${region.iso}.png")
                 try {
                     // Create directories if they don't exist
                     Files.createDirectories(filePath.parent)
