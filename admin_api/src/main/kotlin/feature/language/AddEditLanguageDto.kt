@@ -1,6 +1,6 @@
 package com.moineaufactory.lingvasferoapi.feature.language
 
-import com.moineaufactory.lingvasferoapi.data.value.SupportLevel
+import com.moineaufactory.lingvasferoapi.value.SupportLevel
 
 data class AddEditLanguageDto(
     val id: Int? = null,

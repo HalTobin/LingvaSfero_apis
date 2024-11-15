@@ -1,9 +1,9 @@
 package com.moineaufactory.lingvasferoapi.feature.region
 
 import com.moineaufactory.lingvasferoapi.feature.language.admin.mapper.toRegionEntity
-import data.dto.RegionDto
-import data.mapper.toRegionDto
-import data.service.RegionService
+import com.moineaufactory.lingvasferoapi.dto.RegionDto
+import com.moineaufactory.lingvasferoapi.mapper.toRegionDto
+import com.moineaufactory.lingvasferoapi.service.RegionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

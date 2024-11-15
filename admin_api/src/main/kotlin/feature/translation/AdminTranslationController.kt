@@ -1,8 +1,8 @@
 package com.moineaufactory.lingvasferoapi.feature.translation
 
-import com.moineaufactory.lingvasferoapi.data.dto.TranslationDto
+import com.moineaufactory.lingvasferoapi.dto.TranslationDto
 import com.moineaufactory.lingvasferoapi.data.mapper.toTranslationEntity
-import com.moineaufactory.lingvasferoapi.data.service.TranslationService
+import com.moineaufactory.lingvasferoapi.service.TranslationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

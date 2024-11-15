@@ -1,7 +1,7 @@
 package com.moineaufactory.lingvasferoapi.feature.language
 
-import com.moineaufactory.lingvasferoapi.data.service.LanguageService
-import com.moineaufactory.lingvasferoapi.data.dto.LanguageDto
+import com.moineaufactory.lingvasferoapi.service.LanguageService
+import com.moineaufactory.lingvasferoapi.dto.LanguageDto
 import com.moineaufactory.lingvasferoapi.data.mapper.toLanguageDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
