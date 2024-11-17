@@ -1,6 +1,6 @@
 package com.moineaufactory.lingvasferoapi.feature.region
 
-import com.moineaufactory.lingvasferoapi.feature.language.admin.mapper.toRegionEntity
+import com.moineaufactory.lingvasferoapi.mapper.toRegionEntity
 import com.moineaufactory.lingvasferoapi.dto.RegionDto
 import com.moineaufactory.lingvasferoapi.mapper.toRegionDto
 import com.moineaufactory.lingvasferoapi.service.RegionService

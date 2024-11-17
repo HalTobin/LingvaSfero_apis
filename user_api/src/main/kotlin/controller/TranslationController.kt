@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.translation
+package com.moineaufactory.lingvasferoapi.controller
 
 import com.moineaufactory.lingvasferoapi.dto.TranslationDto
 import com.moineaufactory.lingvasferoapi.data.mapper.toTranslationDto

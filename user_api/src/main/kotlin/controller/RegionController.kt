@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.region
+package com.moineaufactory.lingvasferoapi.controller
 
 import com.moineaufactory.lingvasferoapi.dto.RegionDto
 import com.moineaufactory.lingvasferoapi.mapper.toRegionDto

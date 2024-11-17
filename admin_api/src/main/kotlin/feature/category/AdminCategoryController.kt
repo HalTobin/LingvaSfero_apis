@@ -4,7 +4,7 @@ import com.moineaufactory.lingvasferoapi.dto.CategoryDto
 import com.moineaufactory.lingvasferoapi.mapper.getCategoryDto
 import com.moineaufactory.lingvasferoapi.service.CategoryService
 import com.moineaufactory.lingvasferoapi.service.TranslationService
-import com.moineaufactory.lingvasferoapi.feature.language.admin.mapper.toCategoryEntity
+import com.moineaufactory.lingvasferoapi.mapper.toCategoryEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

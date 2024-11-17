@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.language.admin.mapper
+package com.moineaufactory.lingvasferoapi.mapper
 
 import com.moineaufactory.lingvasferoapi.entity.Category
 import com.moineaufactory.lingvasferoapi.entity.Language
