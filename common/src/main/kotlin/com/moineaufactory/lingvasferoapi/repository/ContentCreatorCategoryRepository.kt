@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param
 
 interface ContentCreatorCategoryRepository : JpaRepository<ContentCreatorCategory?, Long?> {
     override fun findAll(): List<ContentCreatorCategory>
+
+    @Query("SELECT c FROM ContentCreatorCategory c WHERE c.id.contentCreatorId = :id")
     fun findByContentCreatorId(id: Long): List<ContentCreatorCategory>
 
     @Modifying
@@ -28,5 +30,5 @@ interface ContentCreatorCategoryRepository : JpaRepository<ContentCreatorCategor
     ): Int
 
     fun save(contentCreatorCategory: ContentCreatorCategory): ContentCreatorCategory
-    fun saveAll(contentCreatorCategoryList: List<ContentCreatorCategory>)
+    //fun saveAll(contentCreatorCategoryList: List<ContentCreatorCategory>)
 }

@@ -1,6 +1,7 @@
 package com.moineaufactory.lingvasferoapi.controller
 
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorDto
+import com.moineaufactory.lingvasferoapi.dto.FullContentCreatorDto
 import com.moineaufactory.lingvasferoapi.dto.RegionDto
 import com.moineaufactory.lingvasferoapi.mapper.toContentCreatorDto
 import com.moineaufactory.lingvasferoapi.mapper.toRegionDto
@@ -33,6 +34,12 @@ class ContentCreatorController @Autowired constructor(
     fun getContentCreatorsByLanguageId(@RequestParam("language_id") languageId: Int): ResponseEntity<List<ContentCreatorDto>> {
         val contentCreators = contentCreatorService.getByLanguageId(languageId)
         return ResponseEntity(contentCreators, HttpStatus.OK)
+    }
+
+    @GetMapping("/id/{id}")
+    fun getContentCreatorsByLanguageId(@PathVariable("id") id: Long): ResponseEntity<FullContentCreatorDto?> {
+        val creator = contentCreatorService.getFullContentCreator(id)
+        return ResponseEntity(creator, creator?.let { HttpStatus.INTERNAL_SERVER_ERROR } ?: HttpStatus.OK)
     }
 
 }

@@ -13,3 +13,17 @@ data class ContentCreatorDto(
     val categoriesId: List<Int>,
     //val channelsId: List<Int>
 )
+
+data class FullContentCreatorDto(
+    val id: Long,
+    val language: LanguageDto,
+    val region: RegionDto?,
+    val thumbnail: String,
+    val thumbnailSmall: String?,
+    val name: String,
+    val description: String,
+    val levelMin: Int,
+    val levelMax: Int,
+    val categories: List<CategoryDto>,
+    //val channels: List<ChanelDto>
+)
