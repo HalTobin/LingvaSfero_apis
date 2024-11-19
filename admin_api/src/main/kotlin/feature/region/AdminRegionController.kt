@@ -57,7 +57,7 @@ class AdminRegionController @Autowired constructor(
 
         regionService.save(region.toRegionEntity())
 
-        val regions = regionService.getAll().map { it.toRegionDto() }
+        val regions = regionService.getByLanguageId(region.languageId).map { it.toRegionDto() }
         return ResponseEntity(regions, HttpStatus.OK)
     }
 
