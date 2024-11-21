@@ -25,14 +25,14 @@ class ContentCreatorService @Autowired constructor(
         val language = rawData.first().let {
             LanguageDto(
                 id = it["languageId"] as Int,
-                iso = it["iso"] as String,
+                iso = "api/language/image?iso=${it["languageIso"] as String}",
                 name = it["languageName"] as String,
                 imageUrl = it["languageImagePath"] as String,
                 imageHash = it["languageImageHash"] as Int,
                 color = it["languageColor"] as Long,
                 lightColor = it["languageLightColor"] as Long,
                 darkColor = it["languageDarkColor"] as Long,
-                supportLevel = it["languageSupportLevel"] as Int
+                supportLevel = (it["languageSupportLevel"] as Number).toInt()
             )
         }
 
@@ -40,7 +40,7 @@ class ContentCreatorService @Autowired constructor(
             RegionDto(
                 id = it as Int,
                 languageId = rawData.first()["regionLanguageId"] as Int,
-                iso = rawData.first()["regionIso"] as String,
+                iso = "api/region/image?iso=${rawData.first()["regionIso"] as String}",
                 name = rawData.first()["regionName"] as String,
                 imageUrl = rawData.first()["regionImagePath"] as String,
                 imageHash = rawData.first()["regionImageHash"] as Int,
@@ -50,19 +50,22 @@ class ContentCreatorService @Autowired constructor(
             )
         }
 
-        val categories = rawData.groupBy { it["categoryId"] as Int }.map { (categoryId, group) ->
-            val translations = group.map { row ->
-                TranslationDto(
-                    textId = row["categoryTextId"] as String,
-                    iso = row["translationIso"] as String,
-                    text = row["translationText"] as String
+        val categories = if (rawData.first()["categoryId"] == null) emptyList() else rawData.groupBy { it["categoryId"] as? Int }
+            .mapNotNull { (categoryId, group) ->
+            categoryId?.let {
+                val translations = group.map { row ->
+                    TranslationDto(
+                        textId = row["categoryTextId"] as String,
+                        iso = row["translationIso"] as String,
+                        text = row["translationText"] as String
+                    )
+                }
+                CategoryDto(
+                    id = categoryId,
+                    textId = group.first()["categoryTextId"] as String,
+                    translations = translations
                 )
             }
-            CategoryDto(
-                id = categoryId,
-                textId = group.first()["categoryTextId"] as String,
-                translations = translations
-            )
         }
 
         FullContentCreatorDto(
@@ -77,7 +80,9 @@ class ContentCreatorService @Autowired constructor(
             levelMax = rawData.first()["levelMax"] as Int,
             categories = categories
         )
-    } catch (e: Exception) { null }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null }
 
     fun ContentCreator.withCategories(): ContentCreatorDto? {
         return this.id?.let { contentCreatorId ->
