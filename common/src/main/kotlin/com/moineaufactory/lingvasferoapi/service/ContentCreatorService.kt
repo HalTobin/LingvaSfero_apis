@@ -25,9 +25,9 @@ class ContentCreatorService @Autowired constructor(
         val language = rawData.first().let {
             LanguageDto(
                 id = it["languageId"] as Int,
-                iso = "api/language/image?iso=${it["languageIso"] as String}",
+                iso = it["languageIso"] as String,
                 name = it["languageName"] as String,
-                imageUrl = it["languageImagePath"] as String,
+                imageUrl = "api/language/image?iso=${it["languageIso"] as String}",
                 imageHash = it["languageImageHash"] as Int,
                 color = it["languageColor"] as Long,
                 lightColor = it["languageLightColor"] as Long,
@@ -40,9 +40,9 @@ class ContentCreatorService @Autowired constructor(
             RegionDto(
                 id = it as Int,
                 languageId = rawData.first()["regionLanguageId"] as Int,
-                iso = "api/region/image?iso=${rawData.first()["regionIso"] as String}",
+                iso = rawData.first()["regionIso"] as String,
                 name = rawData.first()["regionName"] as String,
-                imageUrl = rawData.first()["regionImagePath"] as String,
+                imageUrl = "api/region/image?iso=${rawData.first()["regionIso"] as String}",
                 imageHash = rawData.first()["regionImageHash"] as Int,
                 color = rawData.first()["regionColor"] as Long,
                 lightColor = rawData.first()["regionLightColor"] as Long,

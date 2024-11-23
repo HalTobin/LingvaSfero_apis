@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.data.mapper
+package com.moineaufactory.lingvasferoapi.mapper
 
 import com.moineaufactory.lingvasferoapi.entity.Language
 import com.moineaufactory.lingvasferoapi.dto.LanguageDto

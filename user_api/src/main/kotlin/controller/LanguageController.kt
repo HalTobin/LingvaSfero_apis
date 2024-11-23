@@ -2,7 +2,7 @@ package com.moineaufactory.lingvasferoapi.controller
 
 import com.moineaufactory.lingvasferoapi.service.LanguageService
 import com.moineaufactory.lingvasferoapi.dto.LanguageDto
-import com.moineaufactory.lingvasferoapi.data.mapper.toLanguageDto
+import com.moineaufactory.lingvasferoapi.mapper.toLanguageDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

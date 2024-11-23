@@ -8,7 +8,7 @@ fun Region.toRegionDto() = RegionDto(
     languageId = this.languageId,
     iso = this.iso,
     name = this.name,
-    imageUrl = this.imagePath,
+    imageUrl = "api/region/image?iso=${this.iso}",
     imageHash = this.imageHash,
     color = this.color,
     lightColor = this.lightColor,
