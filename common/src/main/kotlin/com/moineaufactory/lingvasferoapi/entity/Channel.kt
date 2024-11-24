@@ -1,6 +1,5 @@
 package com.moineaufactory.lingvasferoapi.entity
 
-import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import jakarta.persistence.*
 
 @Entity
@@ -12,8 +11,8 @@ class Channel(
 
     val contentCreatorId: Long,
 
-    val title: String,
-    val source: ChannelSource,
+    val title: String?,
+    val sourceId: Int,
     val sourceLink: String,
 
     // Timestamp corresponding to the last update of the channel's content
