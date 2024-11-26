@@ -4,5 +4,6 @@ data class ChannelSourceDto(
     val id: Int,
     val title: String,
     val imageColor: String,
-    val imageBw: String
+    val imageBw: String,
+    val color: Int
 )

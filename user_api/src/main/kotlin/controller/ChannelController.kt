@@ -1,7 +1,10 @@
 package com.moineaufactory.lingvasferoapi.controller
 
+import com.moineaufactory.lingvasferoapi.dto.ChannelDto
 import com.moineaufactory.lingvasferoapi.dto.ChannelSourceDto
+import com.moineaufactory.lingvasferoapi.mapper.toChannelDto
 import com.moineaufactory.lingvasferoapi.mapper.toChannelSourceDto
+import com.moineaufactory.lingvasferoapi.service.ChannelService
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.ClassPathResource
@@ -14,7 +17,9 @@ import java.io.IOException
 
 @RestController
 @RequestMapping("/api/channel")
-class ChannelController @Autowired constructor() {
+class ChannelController @Autowired constructor(
+    private val channelService: ChannelService
+) {
 
     @GetMapping(value = ["/source_image"], params = ["id", "color"])
     @ResponseBody
@@ -34,6 +39,18 @@ class ChannelController @Autowired constructor() {
         return ResponseEntity.ok()
             .headers(header)
             .body(imageBytes)
+    }
+
+    @GetMapping("/id/{id}")
+    fun getChannel(@PathVariable id: Long): ResponseEntity<ChannelDto?> {
+        val channel = channelService.getById(id)?.toChannelDto()
+        return ResponseEntity(channel, channel?.let { HttpStatus.OK } ?: HttpStatus.BAD_REQUEST)
+    }
+
+    @GetMapping("/find_by_content_creator_id")
+    fun getChannelsByContentCreatorId(@RequestParam("content_creator_id") contentCreatorId: Long): ResponseEntity<List<ChannelDto>> {
+        val channels = channelService.getByContentCreatorId(contentCreatorId).map { it.toChannelDto() }
+        return ResponseEntity(channels, HttpStatus.OK)
     }
 
     @GetMapping("/sources")

@@ -7,5 +7,6 @@ fun ChannelSource.toChannelSourceDto() = ChannelSourceDto(
     id = this.id,
     title = this.title,
     imageColor = "api/channel/source_image?id=${this.id}&color=true",
-    imageBw = "api/channel/source_image?id=${this.id}&color=false"
+    imageBw = "api/channel/source_image?id=${this.id}&color=false",
+    color = this.color
 )
