@@ -8,6 +8,7 @@ fun Channel.toChannelDto() = ChannelDto(
     id = this.id!!,
     contentCreatorId = this.contentCreatorId,
     title = this.title,
+    description = this.description,
     source = ChannelSource.findById(this.sourceId).toChannelSourceDto(),
     sourceLink = this.sourceLink
 )

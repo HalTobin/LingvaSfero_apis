@@ -7,11 +7,12 @@ import jakarta.persistence.*
 class Channel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val id: Long? = null,
 
     val contentCreatorId: Long,
 
     val title: String?,
+    val description: String?,
     val sourceId: Int,
     val sourceLink: String,
 
