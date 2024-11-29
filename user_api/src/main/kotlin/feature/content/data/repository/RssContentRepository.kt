@@ -15,7 +15,7 @@ import java.util.*
 @Service
 class RssContentRepository @Autowired constructor(): ContentRepository {
 
-    override fun getContent(channelId: Long, link: String): List<ContentDto> {
+    override suspend fun getContent(channelId: Long, link: String): List<ContentDto> {
         val rssDocument: Document = Jsoup.connect(link).get()
         val items: List<Element> = rssDocument.select("item")
 

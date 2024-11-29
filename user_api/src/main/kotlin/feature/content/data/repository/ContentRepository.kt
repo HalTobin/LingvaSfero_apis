@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 interface ContentRepository {
-    fun getContent(channelId: Long, link: String): List<ContentDto>
+    suspend fun getContent(channelId: Long, link: String): List<ContentDto>
 }
 
 @Service
 class SpotifyContentRepository @Autowired constructor(): ContentRepository {
-    override fun getContent(channelId: Long, link: String): List<ContentDto> {
+    override suspend fun getContent(channelId: Long, link: String): List<ContentDto> {
         TODO("Not yet implemented")
     }
 }

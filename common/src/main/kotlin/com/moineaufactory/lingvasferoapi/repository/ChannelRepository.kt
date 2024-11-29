@@ -1,6 +1,7 @@
 package com.moineaufactory.lingvasferoapi.repository
 
 import com.moineaufactory.lingvasferoapi.entity.Channel
+import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -13,6 +14,7 @@ interface ChannelRepository : JpaRepository<Channel?, Long?> {
     fun findByContentCreatorId(id: Long): List<Channel>
     fun save(channel: Channel): Channel
 
+    @Transactional
     @Modifying
     @Query("UPDATE Channel c SET c.contentDate = :newTimestamp WHERE c.id = :channelId")
     fun updateTimestamp(@Param("channelId") channelId: Long, @Param("newTimestamp") newTimestamp: Long): Int

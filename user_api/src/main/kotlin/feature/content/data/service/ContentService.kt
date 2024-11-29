@@ -9,15 +9,15 @@ import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.RssContentRepository
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.SpotifyContentRepository
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.YoutubeContentRepository
+import com.moineaufactory.lingvasferoapi.service.ChannelService
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
 class ContentService @Autowired constructor(
+    private val channelService: ChannelService,
     private val rssRepository: RssContentRepository,
     private val youtubeRepository: YoutubeContentRepository,
     private val spotifyRepository: SpotifyContentRepository
@@ -28,7 +28,7 @@ class ContentService @Autowired constructor(
         registerKotlinModule() // Register Kotlin module for Jackson
     }
 
-    fun getContentByChannel(channel: Channel): List<ContentDto> {
+    suspend fun getContentByChannel(channel: Channel): List<ContentDto> {
         val source = ChannelSource.findById(channel.sourceId)
         val repository = when (source) {
             ChannelSource.Rss -> rssRepository
@@ -37,15 +37,20 @@ class ContentService @Autowired constructor(
         }
 
         channel.id?.let { channelId ->
-            val cache = getCachedContent(channelId)
-            if (cache != null) {
-                if (System.currentTimeMillis() - cache.cacheTimestamp < source.cacheValidity) return cache.content
-            } else {
-                println("Cache not found: $channelId.json")
-                val content = repository.getContent(channelId, channel.sourceLink)
-                if (content.isNotEmpty()) writeCache(channelId, content)
-                return@getContentByChannel content
+            channel.contentDate?.let { contentDate ->
+                if (System.currentTimeMillis() - contentDate < source.cacheValidity) {
+                    println("Try to read from cache")
+                    getCachedContent(channelId)?.let { cache ->
+                        println("Cache read successfully")
+                        return@getContentByChannel cache.content }
+                } else println("Cache is too old")
+            } ?: println("Cache not found: $channelId.json")
+            val content = repository.getContent(channelId, channel.sourceLink)
+            if (content.isNotEmpty()) {
+                val cacheTimestamp = writeCache(channelId, content)
+                channelService.updateTimestamp(channelId,cacheTimestamp)
             }
+            return@getContentByChannel content
         }
 
         return emptyList()
@@ -67,8 +72,8 @@ class ContentService @Autowired constructor(
     }
 
     // Function to write content to cache
-    private fun writeCache(channelId: Long, content: List<ContentDto>) {
-        val cacheFile = File("./cache/channel/$channelId.json")
+    private fun writeCache(channelId: Long, content: List<ContentDto>): Long {
+        val cacheFile = File("./cache/channel_content/$channelId.json")
         val cacheDir = cacheFile.parentFile
 
         println("Write cache: $channelId.json")
@@ -77,8 +82,9 @@ class ContentService @Autowired constructor(
             cacheDir.mkdirs() // Create directories if they don’t exist
         }
 
+        val cacheTimestamp = System.currentTimeMillis()
         val cacheContentDto = CacheContentDto(
-            cacheTimestamp = System.currentTimeMillis(),
+            cacheTimestamp = cacheTimestamp,
             content = content
         )
 
@@ -87,6 +93,8 @@ class ContentService @Autowired constructor(
         } catch (e: Exception) {
             e.printStackTrace() // Handle any serialization or I/O errors
         }
+
+        return cacheTimestamp
     }
 
 }

@@ -21,7 +21,7 @@ class ContentController @Autowired constructor(
 ) {
 
     @GetMapping("/get_channel_content")
-    fun getChannelContent(@RequestParam("channel_id") channelId: Long): ResponseEntity<List<ContentDto>> {
+    suspend fun getChannelContent(@RequestParam("channel_id") channelId: Long): ResponseEntity<List<ContentDto>> {
         return channelService.getById(channelId)?.let { channel ->
             val content = contentService.getContentByChannel(channel)
             ResponseEntity(content, HttpStatus.OK)
