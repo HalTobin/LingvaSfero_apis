@@ -1,5 +1,8 @@
 package com.moineaufactory.lingvasferoapi.feature.content.data.service
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.moineaufactory.lingvasferoapi.entity.Channel
 import com.moineaufactory.lingvasferoapi.feature.content.data.dto.CacheContentDto
 import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
@@ -7,8 +10,6 @@ import com.moineaufactory.lingvasferoapi.feature.content.data.repository.RssCont
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.SpotifyContentRepository
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.YoutubeContentRepository
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
@@ -16,7 +17,11 @@ import java.io.File
 @Service
 class ContentService @Autowired constructor() {
 
-    // TODO - Implement cache
+    // Create a singleton object mapper to reuse across the application
+    private val objectMapper = jacksonObjectMapper().apply {
+        registerKotlinModule() // Register Kotlin module for Jackson
+    }
+
     fun getContentByChannel(channel: Channel): List<ContentDto> {
         val source = ChannelSource.findById(channel.sourceId)
         val repository = when (source) {
@@ -40,14 +45,13 @@ class ContentService @Autowired constructor() {
 
     // Function to retrieve cached content from a file
     private fun getCachedContent(channelId: Long): CacheContentDto? {
-        val cacheFile = File("./cache/channel/$channelId.json")
+        val cacheFile = File("./cache/channel_content/$channelId.json")
         if (!cacheFile.exists()) return null // Return null if no cache file exists
 
         println("Read cache: $channelId.json")
 
         return try {
-            val cacheJson = cacheFile.readText()
-            Json.decodeFromString<CacheContentDto>(cacheJson)
+            objectMapper.readValue(cacheFile.readText())
         } catch (e: Exception) {
             e.printStackTrace()
             null // Return null if deserialization fails
@@ -71,8 +75,7 @@ class ContentService @Autowired constructor() {
         )
 
         try {
-            val cacheJson = Json.encodeToString(cacheContentDto)
-            cacheFile.writeText(cacheJson) // Write JSON to file
+            objectMapper.writeValue(cacheFile, cacheContentDto) // Serialize to JSON and write to file
         } catch (e: Exception) {
             e.printStackTrace() // Handle any serialization or I/O errors
         }

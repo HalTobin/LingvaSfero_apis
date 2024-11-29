@@ -12,10 +12,12 @@ class Channel(
     val contentCreatorId: Long,
 
     val title: String?,
+
+    @Column(columnDefinition="TEXT")
     val description: String?,
     val sourceId: Int,
     val sourceLink: String,
 
     // Timestamp corresponding to the last update of the channel's content
-    val contentDate: Long
+    val contentDate: Long? = null
 )

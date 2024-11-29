@@ -24,7 +24,7 @@ class RssContentRepository: ContentRepository {
                 id = "${channelId}_$contentLink",
                 channelId = channelId,
                 title = item.selectFirst("title")?.text().orEmpty().removeTags(),
-                content = item.selectFirst("description")?.text().orEmpty().removeTags(),
+                content = item.selectFirst("content|encoded")?.text().orEmpty().removeTags(),
                 thumbnail = item.selectFirst("media|content")?.attr("url").orEmpty().removeTags(),
                 link = contentLink,
                 timestamp = item.selectFirst("pubDate")?.let { pubDate ->

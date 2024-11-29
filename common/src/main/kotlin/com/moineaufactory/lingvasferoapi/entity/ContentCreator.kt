@@ -1,10 +1,6 @@
 package com.moineaufactory.lingvasferoapi.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "content_creator")
@@ -19,7 +15,10 @@ class ContentCreator(
     val thumbnail: String,
     val thumbnailSmall: String?,
     val name: String,
+
+    @Column(columnDefinition="TEXT")
     val description: String,
+
     val levelMin: Int,
     val levelMax: Int,
 )

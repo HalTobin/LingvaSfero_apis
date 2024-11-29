@@ -1,8 +1,5 @@
 package com.moineaufactory.lingvasferoapi.feature.content.data.dto
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class ContentDto(
     val id: String,
     val channelId: Long,

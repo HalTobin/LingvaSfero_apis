@@ -6,13 +6,6 @@ interface ContentRepository {
     fun getContent(channelId: Long, link: String): List<ContentDto>
 }
 
-
-class YoutubeContentRepository: ContentRepository {
-    override fun getContent(channelId: Long, link: String): List<ContentDto> {
-        TODO("Not yet implemented")
-    }
-}
-
 class SpotifyContentRepository: ContentRepository {
     override fun getContent(channelId: Long, link: String): List<ContentDto> {
         TODO("Not yet implemented")
