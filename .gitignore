@@ -32,6 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-.DS_Store
-.application.properties
-.dev-application.properties
+*.DS_Store
+*.application.properties
+*.dev-application.properties
