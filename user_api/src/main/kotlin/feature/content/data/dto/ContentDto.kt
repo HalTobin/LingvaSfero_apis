@@ -6,7 +6,8 @@ data class ContentDto(
 
     val title: String,
     val content: String,
-    val thumbnail: String,
+    val thumbnail: String?,
+    val thumbnailSmall: String? = null,
     val link: String,
 
     val timestamp: Long

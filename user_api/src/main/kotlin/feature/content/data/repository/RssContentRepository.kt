@@ -4,13 +4,16 @@ import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import java.net.HttpURLConnection
 import java.net.URL
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class RssContentRepository: ContentRepository {
+@Service
+class RssContentRepository @Autowired constructor(): ContentRepository {
 
     override fun getContent(channelId: Long, link: String): List<ContentDto> {
         val rssDocument: Document = Jsoup.connect(link).get()

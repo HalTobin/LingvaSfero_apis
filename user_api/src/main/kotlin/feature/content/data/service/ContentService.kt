@@ -10,12 +10,18 @@ import com.moineaufactory.lingvasferoapi.feature.content.data.repository.RssCont
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.SpotifyContentRepository
 import com.moineaufactory.lingvasferoapi.feature.content.data.repository.YoutubeContentRepository
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class ContentService @Autowired constructor() {
+class ContentService @Autowired constructor(
+    private val rssRepository: RssContentRepository,
+    private val youtubeRepository: YoutubeContentRepository,
+    private val spotifyRepository: SpotifyContentRepository
+) {
 
     // Create a singleton object mapper to reuse across the application
     private val objectMapper = jacksonObjectMapper().apply {
@@ -25,19 +31,21 @@ class ContentService @Autowired constructor() {
     fun getContentByChannel(channel: Channel): List<ContentDto> {
         val source = ChannelSource.findById(channel.sourceId)
         val repository = when (source) {
-            ChannelSource.Rss -> RssContentRepository()
-            ChannelSource.Youtube -> YoutubeContentRepository()
-            ChannelSource.Spotify -> SpotifyContentRepository()
+            ChannelSource.Rss -> rssRepository
+            ChannelSource.Youtube -> youtubeRepository
+            ChannelSource.Spotify -> spotifyRepository
         }
 
         channel.id?.let { channelId ->
-            getCachedContent(channelId)?.let { cache ->
+            val cache = getCachedContent(channelId)
+            if (cache != null) {
                 if (System.currentTimeMillis() - cache.cacheTimestamp < source.cacheValidity) return cache.content
+            } else {
+                println("Cache not found: $channelId.json")
+                val content = repository.getContent(channelId, channel.sourceLink)
+                if (content.isNotEmpty()) writeCache(channelId, content)
+                return@getContentByChannel content
             }
-            println("Cache not found: $channelId.json")
-            val content = repository.getContent(channelId, channel.sourceLink)
-            if (content.isNotEmpty()) writeCache(channelId, content)
-            return content
         }
 
         return emptyList()
