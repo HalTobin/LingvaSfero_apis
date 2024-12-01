@@ -84,6 +84,8 @@ class ContentCreatorService @Autowired constructor(
         e.printStackTrace()
         null }
 
+    fun searchContentCreators(search: String): List<ContentCreatorDto> = contentCreatorRepository.findContentCreatorBySearchText(search).mapNotNull { it.withCategories() }
+
     fun ContentCreator.withCategories(): ContentCreatorDto? {
         return this.id?.let { contentCreatorId ->
             val categories = contentCreatorCategoryRepository.findByContentCreatorId(contentCreatorId)

@@ -1,6 +1,5 @@
 package com.moineaufactory.lingvasferoapi.repository
 
-import com.moineaufactory.lingvasferoapi.dto.FullContentCreatorDto
 import com.moineaufactory.lingvasferoapi.entity.ContentCreator
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -61,4 +60,19 @@ interface ContentCreatorRepository : JpaRepository<ContentCreator?, Long?> {
     fun findFullContentCreatorById(@Param("id") id: Long): List<Map<String, Any>>
 
     fun save(contentCreator: ContentCreator): ContentCreator
+
+    @Query("SELECT cc.* FROM content_creator cc " +
+            "JOIN language l ON cc.language_id = l.id " +
+            "LEFT JOIN region r ON cc.region_id = r.id " +
+            "WHERE " +
+            "LOWER(cc.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(cc.description) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(l.iso) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(r.iso) LIKE LOWER(CONCAT('%', :search, '%'));",
+        nativeQuery = true)
+            //"LOWER(r.iso) LIKE LOWER(CONCAT('%', :search, '%'))")
+            //"WHERE cc.name || cc.description || l.id || r.id " +
+            //"LIKE '%' || :search || '%'")
+    fun findContentCreatorBySearchText(@Param("search") search: String): List<ContentCreator>
+
 }

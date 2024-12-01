@@ -32,4 +32,10 @@ class ContentCreatorController @Autowired constructor(
         return ResponseEntity(creator, creator?.let { HttpStatus.OK } ?: HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
+    @GetMapping("search")
+    fun searchContentCreator(@RequestParam("search") search: String): ResponseEntity<List<ContentCreatorDto>> {
+        val contentCreators = contentCreatorService.searchContentCreators(search)
+        return ResponseEntity(contentCreators, HttpStatus.OK)
+    }
+
 }
