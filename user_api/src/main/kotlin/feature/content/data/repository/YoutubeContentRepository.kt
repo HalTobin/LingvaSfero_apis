@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 @Service
 class YoutubeContentRepository @Autowired constructor(
@@ -60,19 +59,14 @@ object Youtube {
 class YoutubeApiConfig {
 
     @Bean
-    fun retrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(Youtube.API_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun youtubeApi(okHttpClient: OkHttpClient): YoutubeApi {
+        val retrofit = Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(Youtube.API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-    @Bean
-    fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .readTimeout(60, TimeUnit.SECONDS)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .build()
-
-    @Bean
-    fun youtubeApi(retrofit: Retrofit): YoutubeApi = retrofit.create(YoutubeApi::class.java)
+        return retrofit.create(YoutubeApi::class.java)
+    }
     
 }

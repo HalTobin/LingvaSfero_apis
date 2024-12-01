@@ -11,4 +11,5 @@ data class ContentDto(
     val link: String,
 
     val timestamp: Long
+    //val durationMs: Long // TODO - Maybe for a future iteration?
 )
