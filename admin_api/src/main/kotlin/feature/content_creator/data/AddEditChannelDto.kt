@@ -5,6 +5,7 @@ data class AddEditChannelDto(
     val contentCreatorId: Long,
     val sourceId: Int,
     val sourceLink: String,
+    val website: String,
     val title: String,
     val description: String
 )

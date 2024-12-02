@@ -6,5 +6,6 @@ data class ChannelDto(
     val title: String?,
     val description: String?,
     val source: ChannelSourceDto,
-    val sourceLink: String
+    val sourceLink: String,
+    val website: String
 )

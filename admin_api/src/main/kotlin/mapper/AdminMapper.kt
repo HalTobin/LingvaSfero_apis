@@ -51,5 +51,6 @@ fun AddEditChannelDto.toChannelEntity(): Channel =
         description = this.description.ifBlank { null },
         sourceId = ChannelSource.findById(this.sourceId).id,
         sourceLink = this.sourceLink,
+        website = this.website,
         contentDate = 0
     )

@@ -18,6 +18,8 @@ class Channel(
     val sourceId: Int,
     val sourceLink: String,
 
+    val website: String,
+
     // Timestamp corresponding to the last update of the channel's content
     val contentDate: Long? = null
 )
