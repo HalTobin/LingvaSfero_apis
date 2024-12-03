@@ -1,6 +1,7 @@
 package com.moineaufactory.lingvasferoapi.feature.content_creator.data
 
 import com.moineaufactory.lingvasferoapi.entity.ContentCreator
+import com.moineaufactory.lingvasferoapi.feature.content_creator.data.dto.AddEditContentCreatorDto
 
 fun AddEditContentCreatorDto.toEntity() = ContentCreator(
     id = this.id,

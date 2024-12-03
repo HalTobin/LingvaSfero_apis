@@ -1,9 +1,11 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.repository
+package com.moineaufactory.lingvasferoapi.api.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.moineaufactory.lingvasferoapi.feature.content.data.api.spotify.SpotifyApi
-import com.moineaufactory.lingvasferoapi.feature.content.data.api.spotify.SpotifyAuthInterceptor
-import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.api.spotify.SpotifyApi
+import com.moineaufactory.lingvasferoapi.api.SpotifyAuthInterceptor
+import com.moineaufactory.lingvasferoapi.api.dto.ChannelDetailsDto
+import com.moineaufactory.lingvasferoapi.api.dto.ChannelPreviewDto
+import com.moineaufactory.lingvasferoapi.dto.ContentDto
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -14,9 +16,9 @@ import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Service
-class SpotifyContentRepository @Autowired constructor(
+class SpotifyRepository @Autowired constructor(
     private val api: SpotifyApi
-): ContentRepository {
+): SourceRepository {
 
     override suspend fun getContent(channelId: Long, link: String): List<ContentDto> {
         try {
@@ -42,6 +44,14 @@ class SpotifyContentRepository @Autowired constructor(
             e.printStackTrace()
             return emptyList()
         }
+    }
+
+    override suspend fun searchChannel(search: String): List<ChannelPreviewDto> {
+        return emptyList()
+    }
+
+    override suspend fun getChannelDetails(id: String): ChannelDetailsDto? {
+        return null
     }
 
 }

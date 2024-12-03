@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.api.spotify
+package com.moineaufactory.lingvasferoapi.api.spotify
 
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat

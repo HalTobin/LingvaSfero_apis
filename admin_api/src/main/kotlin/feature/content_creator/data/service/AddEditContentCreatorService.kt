@@ -1,14 +1,12 @@
-package com.moineaufactory.lingvasferoapi.feature.content_creator.data
+package com.moineaufactory.lingvasferoapi.feature.content_creator.data.service
 
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorDto
-import com.moineaufactory.lingvasferoapi.entity.ContentCreator
 import com.moineaufactory.lingvasferoapi.entity.ContentCreatorCategory
 import com.moineaufactory.lingvasferoapi.entity.ContentCreatorCategoryId
-import com.moineaufactory.lingvasferoapi.entity.Region
-import com.moineaufactory.lingvasferoapi.mapper.toContentCreatorDto
+import com.moineaufactory.lingvasferoapi.feature.content_creator.data.dto.AddEditContentCreatorDto
+import com.moineaufactory.lingvasferoapi.feature.content_creator.data.toEntity
 import com.moineaufactory.lingvasferoapi.repository.ContentCreatorCategoryRepository
 import com.moineaufactory.lingvasferoapi.repository.ContentCreatorRepository
-import com.moineaufactory.lingvasferoapi.repository.RegionRepository
 import com.moineaufactory.lingvasferoapi.service.ContentCreatorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

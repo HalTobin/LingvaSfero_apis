@@ -1,6 +1,8 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.repository
+package com.moineaufactory.lingvasferoapi.api.repository
 
-import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.api.dto.ChannelDetailsDto
+import com.moineaufactory.lingvasferoapi.api.dto.ChannelPreviewDto
+import com.moineaufactory.lingvasferoapi.dto.ContentDto
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -13,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Service
-class RssContentRepository @Autowired constructor(): ContentRepository {
+class RssRepository @Autowired constructor(): SourceRepository {
 
     override suspend fun getContent(channelId: Long, link: String): List<ContentDto> {
         val rssDocument: Document = Jsoup.connect(link).get()
@@ -39,6 +41,14 @@ class RssContentRepository @Autowired constructor(): ContentRepository {
                 } ?: System.currentTimeMillis()
             )
         }
+    }
+
+    override suspend fun searchChannel(search: String): List<ChannelPreviewDto> {
+        return emptyList()
+    }
+
+    override suspend fun getChannelDetails(id: String): ChannelDetailsDto? {
+        return null
     }
 
 }

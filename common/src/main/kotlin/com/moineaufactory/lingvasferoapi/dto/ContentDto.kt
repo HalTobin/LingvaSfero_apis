@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.dto
+package com.moineaufactory.lingvasferoapi.dto
 
 data class ContentDto(
     val id: String,

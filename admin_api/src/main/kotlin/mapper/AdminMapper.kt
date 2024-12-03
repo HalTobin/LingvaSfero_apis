@@ -8,7 +8,7 @@ import com.moineaufactory.lingvasferoapi.feature.category.AddEditCategoryDto
 import com.moineaufactory.lingvasferoapi.feature.language.AddEditLanguageDto
 import com.moineaufactory.lingvasferoapi.feature.region.AddEditRegionDto
 import com.moineaufactory.lingvasferoapi.entity.Region
-import com.moineaufactory.lingvasferoapi.feature.content_creator.data.AddEditChannelDto
+import com.moineaufactory.lingvasferoapi.feature.content_creator.data.dto.AddEditChannelDto
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
 
 fun AddEditLanguageDto.toLanguageEntity(): Language =

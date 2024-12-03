@@ -1,6 +1,5 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.api.spotify
+package com.moineaufactory.lingvasferoapi.api
 
-import org.springframework.beans.factory.annotation.Value
 import java.io.IOException
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class SpotifyAuthInterceptor(
-    private val configuration: SpotifyConfiguration
+    configuration: SpotifyConfiguration
 ): Interceptor {
 
     private val authUrl = "https://accounts.spotify.com/api/token"

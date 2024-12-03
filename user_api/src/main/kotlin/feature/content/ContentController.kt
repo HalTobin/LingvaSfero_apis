@@ -1,10 +1,8 @@
 package com.moineaufactory.lingvasferoapi.feature.content
 
-import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.dto.ContentDto
 import com.moineaufactory.lingvasferoapi.feature.content.data.service.ContentService
 import com.moineaufactory.lingvasferoapi.service.ChannelService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

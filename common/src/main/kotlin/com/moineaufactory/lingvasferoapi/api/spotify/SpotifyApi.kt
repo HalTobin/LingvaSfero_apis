@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.api.spotify
+package com.moineaufactory.lingvasferoapi.api.spotify
 
 import retrofit2.Call
 import retrofit2.http.GET

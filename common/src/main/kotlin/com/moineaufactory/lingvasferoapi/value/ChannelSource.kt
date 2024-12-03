@@ -32,6 +32,7 @@ enum class ChannelSource(
 
     companion object {
         fun findById(id: Int) = ChannelSource.entries.find { it.id == id } ?: Rss
+        fun findByIdOrNull(id: Int) = ChannelSource.entries.find { it.id == id }
     }
 
 }

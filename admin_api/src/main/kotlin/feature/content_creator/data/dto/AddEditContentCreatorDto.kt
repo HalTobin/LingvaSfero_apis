@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content_creator.data
+package com.moineaufactory.lingvasferoapi.feature.content_creator.data.dto
 
 data class AddEditContentCreatorDto(
     val id: Long?,

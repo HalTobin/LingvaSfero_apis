@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.api
+package com.moineaufactory.lingvasferoapi.api
 
 import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean

@@ -1,4 +1,4 @@
-package com.moineaufactory.lingvasferoapi.feature.content.data.api.youtube
+package com.moineaufactory.lingvasferoapi.api.youtube
 
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -13,6 +13,7 @@ data class YoutubeItem(
 
 data class YoutubeSnippet(
     val publishedAt: String,
+    val customUrl: String,
     val channelId: String,
     val title: String,
     val description: String,

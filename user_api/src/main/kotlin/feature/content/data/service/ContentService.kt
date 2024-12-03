@@ -3,13 +3,11 @@ package com.moineaufactory.lingvasferoapi.feature.content.data.service
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.moineaufactory.lingvasferoapi.dto.ContentDto
 import com.moineaufactory.lingvasferoapi.entity.Channel
 import com.moineaufactory.lingvasferoapi.feature.content.data.dto.CacheContentDto
-import com.moineaufactory.lingvasferoapi.feature.content.data.dto.ContentDto
-import com.moineaufactory.lingvasferoapi.feature.content.data.repository.RssContentRepository
-import com.moineaufactory.lingvasferoapi.feature.content.data.repository.SpotifyContentRepository
-import com.moineaufactory.lingvasferoapi.feature.content.data.repository.YoutubeContentRepository
 import com.moineaufactory.lingvasferoapi.service.ChannelService
+import com.moineaufactory.lingvasferoapi.service.ChannelSourceService
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -18,10 +16,7 @@ import java.io.File
 @Service
 class ContentService @Autowired constructor(
     private val channelService: ChannelService,
-    private val rssRepository: RssContentRepository,
-    private val youtubeRepository: YoutubeContentRepository,
-    private val spotifyRepository: SpotifyContentRepository
-) {
+): ChannelSourceService() {
 
     // Create a singleton object mapper to reuse across the application
     private val objectMapper = jacksonObjectMapper().apply {
@@ -29,30 +24,27 @@ class ContentService @Autowired constructor(
     }
 
     suspend fun getContentByChannel(channel: Channel): List<ContentDto> {
-        val source = ChannelSource.findById(channel.sourceId)
-        val repository = when (source) {
-            ChannelSource.Rss -> rssRepository
-            ChannelSource.Youtube -> youtubeRepository
-            ChannelSource.Spotify -> spotifyRepository
-        }
+        ChannelSource.findByIdOrNull(channel.sourceId)?.let { source ->
+            getRepository(channel.sourceId)?.let { repository ->
+                channel.id?.let { channelId ->
+                    channel.contentDate?.let { contentDate ->
+                        if (System.currentTimeMillis() - contentDate < source.cacheValidity) {
+                            println("Try to read from cache")
+                            getCachedContent(channelId)?.let { cache ->
+                                println("Cache read successfully")
+                                return@getContentByChannel cache.content }
+                        } else println("Cache is too old")
+                    } ?: println("Cache not found: $channelId.json")
+                    val content = repository.getContent(channelId, channel.sourceLink)
+                    if (content.isNotEmpty()) {
+                        val cacheTimestamp = writeCache(channelId, content)
+                        channelService.updateTimestamp(channelId,cacheTimestamp)
+                    }
+                    return@getContentByChannel content
+                }
 
-        channel.id?.let { channelId ->
-            channel.contentDate?.let { contentDate ->
-                if (System.currentTimeMillis() - contentDate < source.cacheValidity) {
-                    println("Try to read from cache")
-                    getCachedContent(channelId)?.let { cache ->
-                        println("Cache read successfully")
-                        return@getContentByChannel cache.content }
-                } else println("Cache is too old")
-            } ?: println("Cache not found: $channelId.json")
-            val content = repository.getContent(channelId, channel.sourceLink)
-            if (content.isNotEmpty()) {
-                val cacheTimestamp = writeCache(channelId, content)
-                channelService.updateTimestamp(channelId,cacheTimestamp)
             }
-            return@getContentByChannel content
         }
-
         return emptyList()
     }
 
