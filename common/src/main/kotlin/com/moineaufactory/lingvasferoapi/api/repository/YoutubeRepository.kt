@@ -4,6 +4,7 @@ import com.moineaufactory.lingvasferoapi.api.dto.ChannelDetailsDto
 import com.moineaufactory.lingvasferoapi.api.dto.ChannelPreviewDto
 import com.moineaufactory.lingvasferoapi.api.youtube.YoutubeApi
 import com.moineaufactory.lingvasferoapi.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.mapper.toChannelSourceDto
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Autowired
@@ -89,7 +90,7 @@ class YoutubeRepository @Autowired constructor(
                             channelId = id,
                             title = youtubeItem.snippet.title,
                             description = youtubeItem.snippet.description,
-                            source = ChannelSource.Youtube,
+                            source = ChannelSource.Youtube.toChannelSourceDto(),
                             website = "https://youtube.com/${youtubeItem.snippet.customUrl}",
                             thumbnail = youtubeItem.snippet.thumbnails.getThumbnail(),
                             thumbnailSmall = youtubeItem.snippet.thumbnails.getThumbnailSmall()

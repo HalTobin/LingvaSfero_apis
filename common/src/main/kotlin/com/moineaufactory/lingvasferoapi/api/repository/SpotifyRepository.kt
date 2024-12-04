@@ -6,6 +6,7 @@ import com.moineaufactory.lingvasferoapi.api.SpotifyAuthInterceptor
 import com.moineaufactory.lingvasferoapi.api.dto.ChannelDetailsDto
 import com.moineaufactory.lingvasferoapi.api.dto.ChannelPreviewDto
 import com.moineaufactory.lingvasferoapi.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.mapper.toChannelSourceDto
 import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Autowired
@@ -80,7 +81,7 @@ class SpotifyRepository @Autowired constructor(
                         channelId = id,
                         title = spotifyItem.name,
                         description = spotifyItem.description,
-                        source = ChannelSource.Spotify,
+                        source = ChannelSource.Spotify.toChannelSourceDto(),
                         website = spotifyItem.externalUrls.spotify,
                         thumbnail = spotifyItem.getThumbnail(),
                         thumbnailSmall = spotifyItem.getThumbnailSmall()
