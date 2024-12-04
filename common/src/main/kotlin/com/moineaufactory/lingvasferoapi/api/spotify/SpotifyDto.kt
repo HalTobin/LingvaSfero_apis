@@ -7,7 +7,7 @@ import java.util.*
 // Root response class for Spotify's podcast episodes API
 data class SpotifyApiResponse(
     val href: String,
-    val items: List<SpotifyEpisode>, // Represents the list of episodes
+    val items: List<SpotifyItem>, // Represents the list of episodes
     val limit: Int,
     val next: String?,
     val offset: Int,
@@ -16,7 +16,7 @@ data class SpotifyApiResponse(
 )
 
 // Represents an individual episode in the response
-data class SpotifyEpisode(
+data class SpotifyItem(
     val id: String,
     val name: String,
     val description: String,
@@ -31,7 +31,7 @@ data class SpotifyEpisode(
     val uri: String
 ) {
 
-    fun getSmallThumbnail(): String? =
+    fun getThumbnailSmall(): String? =
         images.minByOrNull { it.width }?.url
 
     fun getThumbnail(): String? =

@@ -6,6 +6,7 @@ import com.moineaufactory.lingvasferoapi.api.SpotifyAuthInterceptor
 import com.moineaufactory.lingvasferoapi.api.dto.ChannelDetailsDto
 import com.moineaufactory.lingvasferoapi.api.dto.ChannelPreviewDto
 import com.moineaufactory.lingvasferoapi.dto.ContentDto
+import com.moineaufactory.lingvasferoapi.value.ChannelSource
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -22,9 +23,10 @@ class SpotifyRepository @Autowired constructor(
 
     override suspend fun getContent(channelId: Long, link: String): List<ContentDto> {
         try {
-            val response = api.getPodcasts(showId = link).awaitResponse()
-            if (response.isSuccessful) {
-                return response.body()?.let { spotifyApiResponse ->
+            val response = api.getEpisodes(showId = link)
+                .awaitResponse()
+            return if (response.isSuccessful) {
+                response.body()?.let { spotifyApiResponse ->
                     spotifyApiResponse.items.map { spotifyItem ->
                         ContentDto(
                             id = "${channelId}_${spotifyItem.id}",
@@ -32,13 +34,13 @@ class SpotifyRepository @Autowired constructor(
                             title = spotifyItem.name,
                             content = spotifyItem.description,
                             thumbnail = spotifyItem.getThumbnail(),
-                            thumbnailSmall = spotifyItem.getSmallThumbnail(),
+                            thumbnailSmall = spotifyItem.getThumbnailSmall(),
                             link = "https://open.spotify.com/episode/${spotifyItem.id}",
                             timestamp = spotifyItem.releaseDateToEpochMilli()
                         )
                     }
                 } ?: emptyList()
-            } else return emptyList()
+            } else emptyList()
         } catch (e: Exception) {
             println("Couldn't reach Spotify API")
             e.printStackTrace()
@@ -47,11 +49,48 @@ class SpotifyRepository @Autowired constructor(
     }
 
     override suspend fun searchChannel(search: String): List<ChannelPreviewDto> {
-        return emptyList()
+        try {
+            val response = api.getPodcastsPreview(search)
+                .awaitResponse()
+            return if (response.isSuccessful) {
+                response.body()?.let { spotifyApiResponse ->
+                    spotifyApiResponse.items.map { spotifyItem ->
+                        ChannelPreviewDto(
+                            channelId = spotifyItem.id,
+                            title = spotifyItem.name,
+                            description = spotifyItem.description,
+                            image = spotifyItem.getThumbnail()
+                        )
+                    }
+                } ?: emptyList()
+            } else emptyList()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return emptyList()
+        }
     }
 
     override suspend fun getChannelDetails(id: String): ChannelDetailsDto? {
-        return null
+        try {
+            val response = api.getPodcastDetails(id)
+                .awaitResponse()
+            return if (response.isSuccessful) {
+                response.body()?.let { spotifyItem ->
+                    ChannelDetailsDto(
+                        channelId = id,
+                        title = spotifyItem.name,
+                        description = spotifyItem.description,
+                        source = ChannelSource.Spotify,
+                        website = spotifyItem.externalUrls.spotify,
+                        thumbnail = spotifyItem.getThumbnail(),
+                        thumbnailSmall = spotifyItem.getThumbnailSmall()
+                    )
+                }
+            } else null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
 }

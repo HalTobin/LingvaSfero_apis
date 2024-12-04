@@ -34,14 +34,14 @@ data class YoutubeThumbnails(
     val standard: YoutubeThumbnail?,
     val maxres: YoutubeThumbnail?
 ) {
-    val thumbnail: String? =
+    fun getThumbnail(): String? =
         maxres?.url ?:
             standard?.url ?:
             high?.url ?:
             medium?.url ?:
             default?.url
 
-    val thumbnailSmall: String? =
+    fun getThumbnailSmall(): String? =
         standard?.url ?:
             medium?.url ?:
             high?.url

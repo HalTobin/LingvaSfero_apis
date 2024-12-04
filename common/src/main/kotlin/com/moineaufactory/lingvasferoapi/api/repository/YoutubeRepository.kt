@@ -37,8 +37,8 @@ class YoutubeRepository @Autowired constructor(
                             channelId = channelId,
                             title = youtubeItem.snippet.title,
                             content = youtubeItem.snippet.description,
-                            thumbnail = youtubeItem.snippet.thumbnails.thumbnail,
-                            thumbnailSmall = youtubeItem.snippet.thumbnails.thumbnailSmall,
+                            thumbnail = youtubeItem.snippet.thumbnails.getThumbnail(),
+                            thumbnailSmall = youtubeItem.snippet.thumbnails.getThumbnailSmall(),
                             link = "https://www.youtube.com/watch?v=${youtubeItem.snippet.resourceId.videoId}",
                             timestamp = youtubeItem.snippet.publishedAtToEpochMilli()
                         )
@@ -65,7 +65,7 @@ class YoutubeRepository @Autowired constructor(
                             channelId = youtubeItem.snippet.channelId,
                             title = youtubeItem.snippet.title,
                             description = youtubeItem.snippet.description,
-                            image = youtubeItem.snippet.thumbnails.thumbnail
+                            image = youtubeItem.snippet.thumbnails.getThumbnail()
                         )
                     }
                 } ?: emptyList()
@@ -91,8 +91,8 @@ class YoutubeRepository @Autowired constructor(
                             description = youtubeItem.snippet.description,
                             source = ChannelSource.Youtube,
                             website = "https://youtube.com/${youtubeItem.snippet.customUrl}",
-                            thumbnail = youtubeItem.snippet.thumbnails.thumbnail,
-                            thumbnailSmall = youtubeItem.snippet.thumbnails.thumbnailSmall
+                            thumbnail = youtubeItem.snippet.thumbnails.getThumbnail(),
+                            thumbnailSmall = youtubeItem.snippet.thumbnails.getThumbnailSmall()
                         )
                     }
                 }
