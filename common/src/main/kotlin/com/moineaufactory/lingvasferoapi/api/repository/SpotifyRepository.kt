@@ -54,7 +54,7 @@ class SpotifyRepository @Autowired constructor(
                 .awaitResponse()
             return if (response.isSuccessful) {
                 response.body()?.let { spotifyApiResponse ->
-                    spotifyApiResponse.items.map { spotifyItem ->
+                    spotifyApiResponse.shows.items.map { spotifyItem ->
                         ChannelPreviewDto(
                             channelId = spotifyItem.id,
                             title = spotifyItem.name,

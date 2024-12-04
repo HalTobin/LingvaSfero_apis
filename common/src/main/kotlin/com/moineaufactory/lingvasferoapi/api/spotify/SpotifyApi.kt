@@ -19,7 +19,7 @@ interface SpotifyApi {
         @Query("type") type: String = "show",
         @Query("limit") limit: Int = 10,
         @Query("market") market: String = "FR"
-    ): Call<SpotifyApiResponse>
+    ): Call<SpotifySearchShowResponseDto>
 
     @GET("shows/{show_id}")
     fun getPodcastDetails(

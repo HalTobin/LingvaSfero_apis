@@ -56,3 +56,8 @@ data class SpotifyImage(
     val height: Int,
     val width: Int
 )
+
+// Represents shows
+data class SpotifySearchShowResponseDto(
+    val shows: SpotifyApiResponse
+)
