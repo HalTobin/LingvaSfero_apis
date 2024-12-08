@@ -3,6 +3,7 @@ package com.moineaufactory.lingvasferoapi.feature.content_creator
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorDto
 import com.moineaufactory.lingvasferoapi.feature.content_creator.data.dto.AddEditContentCreatorDto
 import com.moineaufactory.lingvasferoapi.feature.content_creator.data.service.AddEditContentCreatorService
+import com.moineaufactory.lingvasferoapi.repository.ContentCreatorCategoryRepository
 import com.moineaufactory.lingvasferoapi.service.ContentCreatorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/admin_api/content_creator")
 class AddEditContentCreatorController @Autowired constructor(
+    private val contentCreatorCategoryRepository: ContentCreatorCategoryRepository,
     private val contentCreatorService: ContentCreatorService,
     private val addEditContentCreatorService: AddEditContentCreatorService,
 ) {

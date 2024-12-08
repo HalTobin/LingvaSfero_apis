@@ -1,6 +1,7 @@
 package com.moineaufactory.lingvasferoapi.repository
 
 import com.moineaufactory.lingvasferoapi.entity.ContentCreatorCategory
+import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -16,6 +17,7 @@ interface ContentCreatorCategoryRepository : JpaRepository<ContentCreatorCategor
     @Query("DELETE FROM ContentCreatorCategory c WHERE c.id.contentCreatorId = :id")
     fun deleteByContentCreatorId(id: Long)
 
+    @Transactional
     @Modifying
     @Query(
         """
