@@ -99,7 +99,8 @@ class ContentCreatorService @Autowired constructor(
         contentCreatorRepository.countContentCreatorByFilter(
             languageId = filterDto.languageId,
             regionId = filterDto.regionId,
-            categoriesId = filterDto.categoriesId,
+            arrayLength = filterDto.categoriesId.size,
+            categoriesId = filterDto.categoriesId.toTypedArray(),
             levelId = filterDto.levelId,
             channelSourceId = filterDto.channelSourceId
         )

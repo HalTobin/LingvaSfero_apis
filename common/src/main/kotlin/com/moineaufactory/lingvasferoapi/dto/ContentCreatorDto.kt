@@ -1,5 +1,11 @@
 package com.moineaufactory.lingvasferoapi.dto
 
+data class SimpleContentCreatorDto(
+    val id: Long,
+    val name: String,
+    val thumbnail: String?
+)
+
 data class ContentCreatorDto(
     val id: Long,
     val languageId: Int,

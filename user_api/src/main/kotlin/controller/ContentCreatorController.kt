@@ -3,6 +3,7 @@ package com.moineaufactory.lingvasferoapi.controller
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorDto
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorFilterDto
 import com.moineaufactory.lingvasferoapi.dto.FullContentCreatorDto
+import com.moineaufactory.lingvasferoapi.dto.SimpleContentCreatorDto
 import com.moineaufactory.lingvasferoapi.service.ContentCreatorService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -44,8 +45,14 @@ class ContentCreatorController @Autowired constructor(
     @GetMapping("/filter")
     fun getContentCreatorsByFilter(
         @RequestBody filter: ContentCreatorFilterDto
-    ): ResponseEntity<List<ContentCreatorDto>> {
-        val creators = contentCreatorService.filterContentCreators(filter)
+    ): ResponseEntity<List<SimpleContentCreatorDto>> {
+        val creators = contentCreatorService
+            .filterContentCreators(filter)
+            .map { SimpleContentCreatorDto(
+                id = it.id,
+                name = it.name,
+                thumbnail = it.thumbnailSmall ?: it.thumbnail
+            ) }
         return ResponseEntity(creators, HttpStatus.OK)
     }
 

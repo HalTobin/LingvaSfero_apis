@@ -93,20 +93,36 @@ interface ContentCreatorRepository : JpaRepository<ContentCreator?, Long?> {
     ): List<ContentCreator>
 
     @Query(
-        value = "SELECT COUNT(DISTINCT cc.id)\n" +
-                "FROM content_creator cc\n" +
-                "LEFT JOIN content_creator_category ccc ON cc.id = ccc.content_creator_id\n" +
-                "WHERE (:language_id IS NULL OR cc.language_id = :language_id)\n" +
-                "  AND (:region_id IS NULL OR cc.region_id = :region_id)\n" +
-                "  AND (COALESCE(:categories_id, ARRAY[]::INT[]) IS NULL OR ccc.category_id = ANY(:categories_id))\n" +
-                "  AND (:channel_source_id IS NULL OR :channel_source_id = :channel_source_id)\n" +
-                "  AND (:level_id IS NULL OR (cc.level_min <= :level_id AND cc.level_max >= :level_id))",
+        value =
+        """
+            WITH category_array AS (
+                SELECT UNNEST(:categories_id) AS category_id
+            )
+            SELECT COUNT(DISTINCT cc.id)
+            FROM content_creator cc
+            LEFT JOIN content_creator_category ccc ON cc.id = ccc.content_creator_id
+            LEFT JOIN channel ch ON ch.content_creator_id = cc.id
+            WHERE (:language_id IS NULL OR cc.language_id = :language_id)
+                AND (:region_id IS NULL OR cc.region_id = :region_id)
+                AND (
+                    :array_length = 0
+                    OR (
+                      SELECT COUNT(*) 
+                      FROM content_creator_category ccc_sub
+                      JOIN category_array ca ON ccc_sub.category_id = ca.category_id
+                      WHERE ccc_sub.content_creator_id = cc.id
+                    ) = :array_length
+                )
+                AND (:level_id IS NULL OR (cc.level_min <= :level_id AND cc.level_max >= :level_id))
+                AND (:channel_source_id IS NULL OR ch.source_id = :channel_source_id)
+            """,
         nativeQuery = true
     )
     fun countContentCreatorByFilter(
         @Param("language_id") languageId: Int?,
         @Param("region_id") regionId: Int?,
-        @Param("categories_id") categoriesId: List<Int>,
+        @Param("categories_id") categoriesId: Array<Int>,
+        @Param("array_length") arrayLength: Int,
         @Param("channel_source_id") channelSourceId: Int?,
         @Param("level_id") levelId: Int?
     ): Int
