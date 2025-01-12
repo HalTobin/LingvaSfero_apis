@@ -1,6 +1,7 @@
 package com.moineaufactory.lingvasferoapi.controller
 
 import com.moineaufactory.lingvasferoapi.dto.ContentCreatorDto
+import com.moineaufactory.lingvasferoapi.dto.ContentCreatorFilterDto
 import com.moineaufactory.lingvasferoapi.dto.FullContentCreatorDto
 import com.moineaufactory.lingvasferoapi.service.ContentCreatorService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +17,7 @@ class ContentCreatorController @Autowired constructor(
 
     @GetMapping("/all")
     fun getContentCreators(): ResponseEntity<List<ContentCreatorDto>> {
-        val contentCreators = contentCreatorService.getAll()
+        val contentCreators = contentCreatorService.getAll().sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
         return ResponseEntity(contentCreators, HttpStatus.OK)
     }
 
@@ -30,6 +31,22 @@ class ContentCreatorController @Autowired constructor(
     fun getContentCreatorsById(@PathVariable("id") id: Long): ResponseEntity<FullContentCreatorDto?> {
         val creator = contentCreatorService.getFullContentCreator(id)
         return ResponseEntity(creator, creator?.let { HttpStatus.OK } ?: HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @GetMapping("/filter/how_many")
+    fun countContentCreatorsByFilter(
+        @RequestBody filter: ContentCreatorFilterDto
+    ): ResponseEntity<Int> {
+        val nbResult = contentCreatorService.countContentCreatorsByFilter(filter)
+        return ResponseEntity(nbResult, HttpStatus.OK)
+    }
+
+    @GetMapping("/filter")
+    fun getContentCreatorsByFilter(
+        @RequestBody filter: ContentCreatorFilterDto
+    ): ResponseEntity<List<ContentCreatorDto>> {
+        val creators = contentCreatorService.filterContentCreators(filter)
+        return ResponseEntity(creators, HttpStatus.OK)
     }
 
     @GetMapping("search")

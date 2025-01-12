@@ -84,6 +84,26 @@ class ContentCreatorService @Autowired constructor(
         e.printStackTrace()
         null }
 
+    fun filterContentCreators(filterDto: ContentCreatorFilterDto): List<ContentCreatorDto> {
+        return contentCreatorRepository.filterContentCreator(
+            languageId = filterDto.languageId,
+            regionId = filterDto.regionId,
+            arrayLength = filterDto.categoriesId.size,
+            categoriesId = filterDto.categoriesId.toTypedArray(),
+            levelId = filterDto.levelId,
+            channelSourceId = filterDto.channelSourceId
+        ).mapNotNull { it.withCategories() }
+    }
+
+    fun countContentCreatorsByFilter(filterDto: ContentCreatorFilterDto): Int =
+        contentCreatorRepository.countContentCreatorByFilter(
+            languageId = filterDto.languageId,
+            regionId = filterDto.regionId,
+            categoriesId = filterDto.categoriesId,
+            levelId = filterDto.levelId,
+            channelSourceId = filterDto.channelSourceId
+        )
+
     fun searchContentCreators(search: String): List<ContentCreatorDto> = contentCreatorRepository.findContentCreatorBySearchText(search).mapNotNull { it.withCategories() }
 
     fun ContentCreator.withCategories(): ContentCreatorDto? {

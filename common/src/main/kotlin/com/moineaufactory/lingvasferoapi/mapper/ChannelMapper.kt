@@ -11,5 +11,5 @@ fun Channel.toChannelDto() = ChannelDto(
     description = this.description,
     source = ChannelSource.findById(this.sourceId).toChannelSourceDto(),
     sourceLink = this.sourceLink,
-    website = this.website
+    website = this.website ?: ""
 )
