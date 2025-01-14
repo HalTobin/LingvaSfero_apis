@@ -31,5 +31,5 @@ data class FullContentCreatorDto(
     val levelMin: Int,
     val levelMax: Int,
     val categories: List<CategoryDto>,
-    //val channels: List<ChanelDto>
+    val channels: List<ChannelDto>
 )
