@@ -25,11 +25,12 @@ class RssRepository @Autowired constructor(): SourceRepository {
 
         return items.map { item ->
             val contentLink = item.selectFirst("link")?.text().orEmpty().removeTags()
+            val content = item.selectFirst("content|encoded")?.text().orEmpty().removeTags()
             ContentDto(
                 id = "${channelId}_$contentLink",
                 channelId = channelId,
                 title = item.selectFirst("title")?.text().orEmpty().removeTags(),
-                content = item.selectFirst("content|encoded")?.text().orEmpty().removeTags(),
+                content = content.ifEmpty { item.selectFirst("description")?.text().orEmpty().removeTags() },
                 thumbnail = item.selectFirst("media|content")?.attr("url").orEmpty().removeTags(),
                 link = contentLink,
                 timestamp = item.selectFirst("pubDate")?.let { pubDate ->
