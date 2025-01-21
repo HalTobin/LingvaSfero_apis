@@ -87,7 +87,7 @@ class YoutubeRepository @Autowired constructor(
                 response.body()?.let { youtubeApiResponse ->
                     youtubeApiResponse.items.firstOrNull()?.let { youtubeItem ->
                         return ChannelDetailsDto(
-                            channelId = id,
+                            channelId = id.replaceRange(1, 2, "U"),
                             title = youtubeItem.snippet.title,
                             description = youtubeItem.snippet.description,
                             source = ChannelSource.Youtube.toChannelSourceDto(),

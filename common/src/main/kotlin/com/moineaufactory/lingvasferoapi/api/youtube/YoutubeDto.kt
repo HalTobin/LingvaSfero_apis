@@ -42,8 +42,8 @@ data class YoutubeThumbnails(
             default?.url
 
     fun getThumbnailSmall(): String? =
-        standard?.url ?:
-            medium?.url ?:
+        medium?.url ?:
+            standard?.url ?:
             high?.url
 }
 
