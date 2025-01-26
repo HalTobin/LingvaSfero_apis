@@ -31,7 +31,10 @@ class RssRepository @Autowired constructor(): SourceRepository {
                 channelId = channelId,
                 title = item.selectFirst("title")?.text().orEmpty().removeTags(),
                 content = content.ifEmpty { item.selectFirst("description")?.text().orEmpty().removeTags() },
-                thumbnail = item.selectFirst("media|content")?.attr("url").orEmpty().removeTags(),
+                thumbnail = (item.selectFirst("media|content")
+                    ?.attr("url")
+                    ?: item.selectFirst("enclosure")?.attr("url"))
+                    ?.removeTags(),
                 link = contentLink,
                 timestamp = item.selectFirst("pubDate")?.let { pubDate ->
                     try {
