@@ -112,7 +112,7 @@ class SpotifyApiConfig(
         val client: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 // Get the token from the SpotifyAuthInterceptor
-                val token = authInterceptor.intercept(chain).body()?.string()
+                val token = authInterceptor.intercept(chain).body?.string()
                     ?.let { responseBody ->
                         objectMapper.readTree(responseBody).get("access_token").asText()
                     }

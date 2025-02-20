@@ -4,6 +4,10 @@ import com.moineaufactory.lingvasferoapi.dto.ContentDto
 import com.moineaufactory.lingvasferoapi.feature.content.data.dto.UpdateContentDto
 import com.moineaufactory.lingvasferoapi.feature.content.data.service.ContentService
 import com.moineaufactory.lingvasferoapi.service.ChannelService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -34,13 +38,21 @@ class ContentController @Autowired constructor(
         @RequestBody update: UpdateContentDto
     ): ResponseEntity<List<ContentDto>> {
         // TODO - Implement the "timestamp" argument to lighten the returned json
-        // TODO - Multi-thread these calls
-        val content = update.channelsId.mapNotNull { channelId ->
-            channelService.getById(channelId)?.let { channel ->
-                contentService.getContentByChannel(channel)
+        return coroutineScope {
+            // Launch concurrent tasks for each channelId
+            val deferredContents = update.channelsId.map { channelId ->
+                async(Dispatchers.IO) { // Perform IO operations in parallel
+                    channelService.getById(channelId)?.let { channel ->
+                        contentService.getContentByChannel(channel)
+                    } ?: emptyList()
+                }
             }
-        }.flatten()
-        return ResponseEntity(content, HttpStatus.OK)
+
+            // Await all results and flatten them
+            val content = deferredContents.awaitAll().flatten()
+
+            ResponseEntity(content, HttpStatus.OK)
+        }
     }
 
 }

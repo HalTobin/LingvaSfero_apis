@@ -34,7 +34,7 @@ class ContentCreatorController @Autowired constructor(
         return ResponseEntity(creator, creator?.let { HttpStatus.OK } ?: HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    @GetMapping("/filter/how_many")
+    @PutMapping("/filter/how_many")
     fun countContentCreatorsByFilter(
         @RequestBody filter: ContentCreatorFilterDto
     ): ResponseEntity<Int> {
@@ -42,7 +42,7 @@ class ContentCreatorController @Autowired constructor(
         return ResponseEntity(nbResult, HttpStatus.OK)
     }
 
-    @GetMapping("/filter")
+    @PutMapping("/filter")
     fun getContentCreatorsByFilter(
         @RequestBody filter: ContentCreatorFilterDto
     ): ResponseEntity<List<SimpleContentCreatorDto>> {

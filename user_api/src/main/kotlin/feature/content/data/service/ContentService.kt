@@ -35,7 +35,12 @@ class ContentService @Autowired constructor(
                                 return@getContentByChannel cache.content }
                         } else println("Cache is too old")
                     } ?: println("Cache not found: $channelId.json")
-                    val content = repository.getContent(channelId, channel.sourceLink)
+                    val content = try {
+                        repository.getContent(channelId, channel.sourceLink)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        emptyList()
+                    }
                     if (content.isNotEmpty()) {
                         val cacheTimestamp = writeCache(channelId, content)
                         channelService.updateTimestamp(channelId,cacheTimestamp)
