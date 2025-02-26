@@ -11,7 +11,7 @@ import org.springframework.web.filter.GenericFilterBean
 @Component
 class ApiKeyAuthFilter : GenericFilterBean() {
 
-    @Value("\${ls.user.api.key}")
+    @Value("\${ls.public.api.key}")
     private lateinit var validApiKey: String
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {

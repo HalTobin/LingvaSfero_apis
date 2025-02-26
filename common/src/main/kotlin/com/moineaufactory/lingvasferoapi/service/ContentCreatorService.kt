@@ -109,6 +109,9 @@ class ContentCreatorService @Autowired constructor(
             channelSourceId = filterDto.channelSourceId
         )
 
+    fun countContentCreatorsByLanguage(languageId: Int): Int =
+        contentCreatorRepository.countContentCreatorByLanguageId(languageId)
+
     fun searchContentCreators(search: String): List<ContentCreatorDto> = contentCreatorRepository.findContentCreatorBySearchText(search).mapNotNull { it.withCategories() }
 
     fun ContentCreator.withCategories(): ContentCreatorDto? {

@@ -127,6 +127,16 @@ interface ContentCreatorRepository : JpaRepository<ContentCreator?, Long?> {
         @Param("level_id") levelId: Int?
     ): Int
 
+    @Query("""
+            SELECT COUNT(DISTINCT cc.id)
+            FROM content_creator cc
+            WHERE cc.language_id = :language_id
+        """,
+        nativeQuery = true)
+    fun countContentCreatorByLanguageId(
+        @Param("language_id") languageId: Int
+    ): Int
+
     fun save(contentCreator: ContentCreator): ContentCreator
 
     @Query("SELECT cc.* FROM content_creator cc " +

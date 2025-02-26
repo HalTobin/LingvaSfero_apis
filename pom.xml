@@ -16,6 +16,7 @@
 		<module>common</module>
 		<module>user_api</module>
 		<module>admin_api</module>
+		<module>public_api</module>
 	</modules>
 
 	<groupId>com.moineaufactory</groupId>
