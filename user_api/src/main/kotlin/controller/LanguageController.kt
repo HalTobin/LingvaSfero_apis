@@ -18,6 +18,7 @@ class LanguageController @Autowired constructor(
     private val languageService: LanguageService
 ) {
 
+    // TODO - Make reusable function (@ public_api/LanguagePreviewController.kt)
     // Get the flag that correspond to a language
     @GetMapping(value = ["/image"], params = ["iso"], produces = [MediaType.IMAGE_PNG_VALUE])
     @ResponseBody
