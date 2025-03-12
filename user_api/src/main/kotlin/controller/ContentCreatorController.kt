@@ -6,6 +6,8 @@ import com.moineaufactory.lingvasferoapi.dto.FullContentCreatorDto
 import com.moineaufactory.lingvasferoapi.dto.SimpleContentCreatorDto
 import com.moineaufactory.lingvasferoapi.service.ContentCreatorService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -48,6 +50,21 @@ class ContentCreatorController @Autowired constructor(
     ): ResponseEntity<List<SimpleContentCreatorDto>> {
         val creators = contentCreatorService
             .filterContentCreators(filter)
+            .map { SimpleContentCreatorDto(
+                id = it.id,
+                name = it.name,
+                thumbnail = it.thumbnailSmall ?: it.thumbnail
+            ) }
+        return ResponseEntity(creators, HttpStatus.OK)
+    }
+
+    @PutMapping("/filter_paged")
+    fun getContentCreatorsByFilter(
+        @RequestBody filter: ContentCreatorFilterDto,
+        p: Pageable
+    ): ResponseEntity<Page<SimpleContentCreatorDto>> {
+        val creators = contentCreatorService
+            .filterContentCreatorsPage(filter, p)
             .map { SimpleContentCreatorDto(
                 id = it.id,
                 name = it.name,

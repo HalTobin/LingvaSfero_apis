@@ -2,14 +2,14 @@ package com.moineaufactory.lingvasferoapi.service
 
 import com.moineaufactory.lingvasferoapi.dto.*
 import com.moineaufactory.lingvasferoapi.entity.ContentCreator
-import com.moineaufactory.lingvasferoapi.entity.Region
 import com.moineaufactory.lingvasferoapi.mapper.toChannelDto
 import com.moineaufactory.lingvasferoapi.mapper.toContentCreatorDto
 import com.moineaufactory.lingvasferoapi.repository.ChannelRepository
 import com.moineaufactory.lingvasferoapi.repository.ContentCreatorCategoryRepository
 import com.moineaufactory.lingvasferoapi.repository.ContentCreatorRepository
-import com.moineaufactory.lingvasferoapi.repository.RegionRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
 @Service
@@ -97,6 +97,18 @@ class ContentCreatorService @Autowired constructor(
             levelId = filterDto.levelId,
             channelSourceId = filterDto.channelSourceId
         ).mapNotNull { it.withCategories() }
+    }
+
+    fun filterContentCreatorsPage(filterDto: ContentCreatorFilterDto, p: Pageable): Page<ContentCreatorDto> {
+        return contentCreatorRepository.filterContentCreatorPage(
+            languageId = filterDto.languageId,
+            regionId = filterDto.regionId,
+            arrayLength = filterDto.categoriesId.size,
+            categoriesId = filterDto.categoriesId.toTypedArray(),
+            levelId = filterDto.levelId,
+            channelSourceId = filterDto.channelSourceId,
+            pageable = p
+        ).map { it.withCategories() }
     }
 
     fun countContentCreatorsByFilter(filterDto: ContentCreatorFilterDto): Int =

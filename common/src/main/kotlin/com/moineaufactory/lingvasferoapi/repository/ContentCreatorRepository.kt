@@ -1,6 +1,8 @@
 package com.moineaufactory.lingvasferoapi.repository
 
 import com.moineaufactory.lingvasferoapi.entity.ContentCreator
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -91,6 +93,64 @@ interface ContentCreatorRepository : JpaRepository<ContentCreator?, Long?> {
         @Param("channel_source_id") channelSourceId: Int?,
         @Param("level_id") levelId: Int?
     ): List<ContentCreator>
+
+    @Query(
+        value = """
+            WITH category_array AS (
+                SELECT UNNEST(:categories_id) AS category_id
+            )
+            SELECT DISTINCT cc.* 
+            FROM content_creator cc
+            LEFT JOIN content_creator_category ccc ON cc.id = ccc.content_creator_id
+            LEFT JOIN channel ch ON ch.content_creator_id = cc.id
+            WHERE (:language_id IS NULL OR cc.language_id = :language_id)
+              AND (:region_id IS NULL OR cc.region_id = :region_id)
+              AND (
+                  :array_length = 0
+                  OR (
+                      SELECT COUNT(*) 
+                      FROM content_creator_category ccc_sub
+                      JOIN category_array ca ON ccc_sub.category_id = ca.category_id
+                      WHERE ccc_sub.content_creator_id = cc.id
+                  ) = :array_length
+              )
+              AND (:level_id IS NULL OR (cc.level_min <= :level_id AND cc.level_max >= :level_id))
+              AND (:channel_source_id IS NULL OR ch.source_id = :channel_source_id)
+            ORDER BY cc.id ASC
+        """,
+        countQuery = """
+            WITH category_array AS (
+                SELECT UNNEST(:categories_id) AS category_id
+            )
+            SELECT COUNT(DISTINCT cc.id)
+            FROM content_creator cc
+            LEFT JOIN content_creator_category ccc ON cc.id = ccc.content_creator_id
+            LEFT JOIN channel ch ON ch.content_creator_id = cc.id
+            WHERE (:language_id IS NULL OR cc.language_id = :language_id)
+                AND (:region_id IS NULL OR cc.region_id = :region_id)
+                AND (
+                    :array_length = 0
+                    OR (
+                      SELECT COUNT(*) 
+                      FROM content_creator_category ccc_sub
+                      JOIN category_array ca ON ccc_sub.category_id = ca.category_id
+                      WHERE ccc_sub.content_creator_id = cc.id
+                    ) = :array_length
+                )
+                AND (:level_id IS NULL OR (cc.level_min <= :level_id AND cc.level_max >= :level_id))
+                AND (:channel_source_id IS NULL OR ch.source_id = :channel_source_id)
+            """,
+        nativeQuery = true
+    )
+    fun filterContentCreatorPage(
+        @Param("language_id") languageId: Int?,
+        @Param("region_id") regionId: Int?,
+        @Param("categories_id") categoriesId: Array<Int>,
+        @Param("array_length") arrayLength: Int,
+        @Param("channel_source_id") channelSourceId: Int?,
+        @Param("level_id") levelId: Int?,
+        pageable: Pageable
+    ): Page<ContentCreator>
 
     @Query(
         value =
