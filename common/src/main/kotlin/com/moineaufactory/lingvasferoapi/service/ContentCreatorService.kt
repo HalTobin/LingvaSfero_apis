@@ -126,6 +126,8 @@ class ContentCreatorService @Autowired constructor(
 
     fun searchContentCreators(search: String): List<ContentCreatorDto> = contentCreatorRepository.findContentCreatorBySearchText(search).mapNotNull { it.withCategories() }
 
+    fun searchContentCreatorsPaged(search: String, p: Pageable): Page<ContentCreatorDto> = contentCreatorRepository.findContentCreatorBySearchTextPage(search, p).map { it.withCategories() }
+
     fun ContentCreator.withCategories(): ContentCreatorDto? {
         return this.id?.let { contentCreatorId ->
             val categories = contentCreatorCategoryRepository.findByContentCreatorId(contentCreatorId)

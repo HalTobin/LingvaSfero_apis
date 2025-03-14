@@ -44,7 +44,7 @@ class ContentCreatorController @Autowired constructor(
         return ResponseEntity(nbResult, HttpStatus.OK)
     }
 
-    @PutMapping("/filter")
+    /*@PutMapping("/filter")
     fun getContentCreatorsByFilter(
         @RequestBody filter: ContentCreatorFilterDto
     ): ResponseEntity<List<SimpleContentCreatorDto>> {
@@ -56,7 +56,7 @@ class ContentCreatorController @Autowired constructor(
                 thumbnail = it.thumbnailSmall ?: it.thumbnail
             ) }
         return ResponseEntity(creators, HttpStatus.OK)
-    }
+    }*/
 
     @PutMapping("/filter_paged")
     fun getContentCreatorsByFilter(
@@ -73,9 +73,12 @@ class ContentCreatorController @Autowired constructor(
         return ResponseEntity(creators, HttpStatus.OK)
     }
 
-    @GetMapping("search")
-    fun searchContentCreator(@RequestParam("search") search: String): ResponseEntity<List<ContentCreatorDto>> {
-        val contentCreators = contentCreatorService.searchContentCreators(search)
+    @GetMapping("search_paged")
+    fun searchContentCreator(
+        @RequestParam("search") search: String,
+        p: Pageable
+    ): ResponseEntity<Page<ContentCreatorDto>> {
+        val contentCreators = contentCreatorService.searchContentCreatorsPaged(search, p)
         return ResponseEntity(contentCreators, HttpStatus.OK)
     }
 

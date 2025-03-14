@@ -213,4 +213,26 @@ interface ContentCreatorRepository : JpaRepository<ContentCreator?, Long?> {
             //"LIKE '%' || :search || '%'")
     fun findContentCreatorBySearchText(@Param("search") search: String): List<ContentCreator>
 
+    @Query("SELECT cc.* FROM content_creator cc " +
+            "JOIN language l ON cc.language_id = l.id " +
+            "LEFT JOIN region r ON cc.region_id = r.id " +
+            "WHERE " +
+            "LOWER(cc.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(cc.description) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(l.iso) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(r.iso) LIKE LOWER(CONCAT('%', :search, '%'));",
+        countQuery = "SELECT COUNT(DISTINCT cc.id) FROM content_creator cc " +
+                "JOIN language l ON cc.language_id = l.id " +
+                "LEFT JOIN region r ON cc.region_id = r.id " +
+                "WHERE " +
+                "LOWER(cc.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+                "LOWER(cc.description) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+                "LOWER(l.iso) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+                "LOWER(r.iso) LIKE LOWER(CONCAT('%', :search, '%'));",
+        nativeQuery = true)
+    fun findContentCreatorBySearchTextPage(
+        @Param("search") search: String,
+        pageable: Pageable
+    ): Page<ContentCreator>
+
 }
