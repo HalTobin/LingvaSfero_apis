@@ -1,5 +1,6 @@
 package com.moineaufactory.lingvasferoapi.configuration
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
@@ -13,6 +14,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 class SecurityConfig(private val apiKeyAuthFilter: ApiKeyAuthFilter) {
+
+    @Value("\${ls.admin.api.username}")
+    private lateinit var userName: String
+    @Value("\${ls.admin.api.password}")
+    private lateinit var adminPassword: String
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -33,8 +39,8 @@ class SecurityConfig(private val apiKeyAuthFilter: ApiKeyAuthFilter) {
     @Bean
     fun users(): InMemoryUserDetailsManager {
         return InMemoryUserDetailsManager(
-            User.withUsername("user")
-                .password("{noop}pass")
+            User.withUsername(userName)
+                .password("{noop}$adminPassword")
                 .authorities("read")
                 .build()
         )
